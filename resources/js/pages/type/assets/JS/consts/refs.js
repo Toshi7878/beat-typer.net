@@ -10,4 +10,4 @@ export const changeTab = (tabName) => {
 export const timeDiff = ref(0)
 
 
-export const map = ref(null);
+export const map = ref(0);

@@ -11,16 +11,16 @@ export class TypeArea {
 		this.lineTimeBarMax = ref(100)
 
 		//Center
-		this.mainInput = ref(' ')
+		this.mainInput = ref('')
 		this.mainNextChar = ref('')
 		this.mainWord = ref([])
-		this.subInput = ref(' ')
+		this.subInput = ref('')
 		this.subNextChar = ref('')
 		this.subWord = ref([])
 		this.countDown = ref('')
 		this.lyrics = ref('')
 		this.nextLyrics = ref('')
-		this.nextTypeSpeed = ref(' ')
+		this.nextTypeSpeed = ref('')
 
 		//Bottom
 		this.skip = ref('')

@@ -12,7 +12,7 @@ const mainWord = computed(() => {
 	if (WORD) {
 		return WORD
 	} else {
-		return ' '
+		return ''
 	}
 })
 const subInput = computed(() => { return typeArea.subInput.value })
@@ -23,7 +23,7 @@ const subWord = computed(() => {
 	if (WORD) {
 		return WORD
 	} else {
-		return ' '
+		return ''
 	}
 })
 
@@ -36,7 +36,7 @@ const nextTypeSpeed = computed(() => {
 	if (SPEED > 0) {
 		return `NEXT:${typeArea.nextTypeSpeed.value.toFixed()}kpm`
 	} else {
-		return ' '
+		return ''
 	}
 })
 
@@ -88,6 +88,10 @@ const nextTypeSpeed = computed(() => {
 #main {
 	font-size: 32.0px;
 	letter-spacing: 1.0px;
+}
+
+#main::before, #sub::before{
+	content: '\200B';
 }
 
 #sub {

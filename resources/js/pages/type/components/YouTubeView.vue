@@ -2,6 +2,7 @@
 import YouTube from 'vue3-youtube'
 import { ytState } from '@/pages/type/assets/JS/components/ytState.js';
 import { youtube } from '@/templates/assets/JS/youtubeRef.js'
+import { map } from '@/pages/type/assets/JS/consts/refs.js';
 
 
 
@@ -10,7 +11,7 @@ const ID = window.movieId
 </script>
 
 <template>
-	<div id="youtube_container" class="col-xs mb-3 me-2">
+	<div id="youtube_container" class="col-xs mb-3 me-2" :class="{'invisible': map.value}">
 		<!-- 16:9をpx単位で計算してwidthとheightを求める https://uzurea.net/resolution-16-9/ -->
 		<YouTube :src="ID" :vars="vars" width="382.2222px" height="215px" @ready="ytState.ready()" ref="youtube" @state-change="ytState.change" />
 	</div>

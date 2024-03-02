@@ -27,11 +27,11 @@ class Event {
 
 
 <template>
-	<button class="text-info btn cursor-pointer" id="speed_down" @click="Event.speedDown">
+	<button type="button" class="text-info btn cursor-pointer" id="speed_down" @click="Event.speedDown">
 		<div class="position-relative">-<small class="f-key">F9</small></div>
 	</button>
 	<span id="speed">{{ speed.toFixed(2) }}</span>倍速
-	<button class="text-info btn cursor-pointer" id="speed_up" @click="Event.speedUp">
+	<button type="button" class="text-info btn cursor-pointer" id="speed_up" @click="Event.speedUp">
 		<div class="position-relative">+<small class="f-key">F10</small></div>
 	</button>
 </template>

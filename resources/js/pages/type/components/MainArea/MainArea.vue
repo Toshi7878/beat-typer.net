@@ -12,43 +12,6 @@ const lineTimeBar = computed(() => { return typeArea.lineTimeBar.value })
 const lineTimeBarMax = computed(() => { return typeArea.lineTimeBarMax.value })
 const lineRemainTime = computed(() => { return typeArea.lineRemainTime.value.toFixed(1) })
 
-//Word
-const mainInput = computed(() => { return typeArea.mainInput.value })
-const mainNextChar = computed(() => { return typeArea.mainNextChar.value['k'] })
-const mainWord = computed(() => {
-	const WORD = typeArea.mainWord.value.join("");
-
-	if (WORD) {
-		return WORD
-	} else {
-		return ' '
-	}
-})
-const subInput = computed(() => { return typeArea.subInput.value })
-const subNextChar = computed(() => { return typeArea.subNextChar.value['r'] })
-const subWord = computed(() => {
-	const WORD = typeArea.subWord.value.join("");
-
-	if (WORD) {
-		return WORD
-	} else {
-		return ' '
-	}
-})
-
-//Lyrics
-const lyrics = computed(() => { return typeArea.lyrics.value })
-const nextLyrics = computed(() => { return typeArea.nextLyrics.value })
-const nextTypeSpeed = computed(() => {
-	const SPEED = typeArea.nextTypeSpeed.value
-
-	if (SPEED > 0) {
-		return `NEXT:${typeArea.nextTypeSpeed.value.toFixed()}kpm`
-	} else {
-		return ' '
-	}
-})
-
 //Bottom
 const currentTimeBar = computed(() => { return typeArea.currentTimeBar.value })
 const currentTimeBarMax = computed(() => { return typeArea.currentTimeBarMax.value })

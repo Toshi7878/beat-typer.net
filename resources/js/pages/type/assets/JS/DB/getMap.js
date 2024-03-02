@@ -1,5 +1,6 @@
 import { map } from '@/pages/type/assets/JS/consts/refs.js';
 import { Map } from '@/pages/type/assets/JS/components/createTypeWord.js';
+
 const ID = window.mapId;
 
 // Fetch data from the server
@@ -15,6 +16,8 @@ headers: {
 	// Process the returned data from the server
 	map.value = new Map(JSON.parse(data));
 
+	//Enterキーで開始ショートカットキー
+	window.addEventListener('keydown', ShortcutHandler.Start);
 })
 .catch(error => {
 	// Handle errors and log to the console

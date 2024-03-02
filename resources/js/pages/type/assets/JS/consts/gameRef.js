@@ -4,7 +4,8 @@ class Game {
 
 	constructor(){
 		this.playState = ref('ready') // ['ready', 'play', 'end']
-		this.playMode = ref('roma') // ['roma', 'kana', 'flick']
+		this.inputMode = ref('roma') // ['roma', 'kana', 'flick']
+		this.playMode = ref('normal') // ['normal', 'practice']
 	}
 }
 

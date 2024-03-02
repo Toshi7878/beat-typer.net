@@ -2,7 +2,7 @@ import {map} from '@/pages/type/assets/JS/consts/refs.js';
 import { typeArea } from '@/pages/type/assets/JS/consts/typeAreaRef.js';
 import { status } from '@/pages/type/assets/JS/consts/statusRef.js';
 import { result } from '@/pages/type/assets/JS/consts/resultRef.js';
-import { youtube } from '@/templates/assets/JS/youtubeRef.js'
+import { youtube, speed } from '@/templates/assets/JS/youtubeRef.js'
 
 import _ from 'lodash';
 
@@ -28,7 +28,7 @@ class Render {
 
 		if(Math.abs(this.constantTime - typeArea.lineRemainTime.value) >= 0.1){//ライン経過時間 ＆ 打鍵速度計算
 			const NEXT_LINE = map.value.data[line.count]
-			typeArea.lineRemainTime.value = (NEXT_LINE.time - this.correntTime)//movieSpeedController.speed; //ライン残り時間
+			typeArea.lineRemainTime.value = (NEXT_LINE.time - this.correntTime)/speed.value; //ライン残り時間
 			// this.updateLineTime('updateTypeSpeed')
 
 			//const SKIP = this.skipedCount != line.count && !keyDown.nextChar[0] && lyrics_array[line.count][0] - this.headTime > 1 || retry.resetFlag
@@ -95,7 +95,7 @@ class Timer extends Render {
 
 	update(){
 		this.correntTime = youtube.value.getCurrentTime()
-		this.constantTime = youtube.value.getCurrentTime()//speed対応したら/speedする
+		this.constantTime = this.correntTime / speed.value
 
 		const NEXT_LINE = map.value.data[line.count]
 		const IS_LINE_UPDATE = (NEXT_LINE && this.correntTime > +NEXT_LINE.time)
