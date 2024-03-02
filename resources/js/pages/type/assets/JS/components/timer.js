@@ -2,6 +2,7 @@ import {map, youtube} from '@/pages/type/assets/JS/consts/refs.js';
 import { typeArea } from '@/pages/type/assets/JS/consts/typeAreaRef.js';
 import { status } from '@/pages/type/assets/JS/consts/statusRef.js';
 import { result } from '@/pages/type/assets/JS/consts/resultRef.js';
+import _ from 'lodash';
 
 class Render {
 
@@ -109,13 +110,15 @@ export const timer = new Timer()
 
 class Next {
 	setWord(){
-		typeArea.mainInput.value = ''
-		typeArea.mainNextChar.value = ''
-		typeArea.mainWord.value = map.value.lineWords[this.count]['k']
-		typeArea.subInput.value = 
-		typeArea.subNextChar.value = ''
-		typeArea.subWord.value = map.value.lineWords[this.count]['r']
+		this.typePattern = _.cloneDeep(map.value.typePattern[this.count]);
+		typeArea.mainWord.value = _.cloneDeep(map.value.lineWords[this.count]['k']);
+		typeArea.subWord.value = _.cloneDeep(map.value.lineWords[this.count]['r']);
 
+		typeArea.subInput.value = ''
+		typeArea.mainInput.value = ''
+
+		typeArea.subNextChar.value = ''
+		typeArea.mainNextChar.value = ''
 	}
 
 	setLyrics(next){
@@ -136,6 +139,7 @@ class Line extends Next {
 	constructor(){
 		super()
 		this.count = 0
+		this.typePattern = []
 	}
 
 	update(next){

@@ -3,6 +3,7 @@
 import YouTubeView from './components/YouTubeView.vue'
 import Tabs from './components/Tabs/Tabs.vue'
 import TypeArea from './components/TypeArea/TypeArea.vue'
+import Ready from './components/TypeArea/Ready.vue'
 
 import Header from '@/templates/header.vue'
 import './assets/JS/DB/getMap.js'
@@ -16,7 +17,10 @@ import './assets/JS/DB/getMap.js'
     <div class="row">
       <YouTubeView />
       <Tabs />
-      <TypeArea />
+      <div class="w-100 pt-3 pb-4 shadow bg-body-tertiary rounded fw-bold">
+        <Ready />
+        <TypeArea />
+      </div>
     </div>
 
   </main>

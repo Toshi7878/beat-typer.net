@@ -10,7 +10,7 @@ const lineRemainTime = computed(() => { return typeArea.lineRemainTime.value.toF
 
 //Word
 const mainInput = computed(() => { return typeArea.mainInput.value })
-const mainNextChar = computed(() => { return typeArea.mainNextChar.value })
+const mainNextChar = computed(() => { return typeArea.mainNextChar.value['k'] })
 const mainWord = computed(() => {
 	const WORD = typeArea.mainWord.value.join("");
 
@@ -21,7 +21,7 @@ const mainWord = computed(() => {
 	}
 })
 const subInput = computed(() => { return typeArea.subInput.value })
-const subNextChar = computed(() => { return typeArea.subNextChar.value })
+const subNextChar = computed(() => { return typeArea.subNextChar.value['r'] })
 const subWord = computed(() => {
 	const WORD = typeArea.subWord.value.join("");
 
@@ -61,50 +61,50 @@ const SS = ("00" +(parseInt(TIME) - ("00" + parseInt(parseInt(TIME) / 60)).slice
 </script>
 
 <template>
-	<div class="w-100 pt-3 pb-4 shadow bg-body-tertiary rounded fw-bold">
-		<div id="top_area">
-			<div id="top_notify" class="mx-2 d-flex justify-content-between font-monospace">
-				<div id="combo_notify" class="fs-4 position-relative">{{ typeArea.combo }}</div>
-				<div id="effect_notify" class="position-absolute fs-4" v-html="typeArea.notify.value"></div>
-				<div id="line_time_notify" class="position-relative fs-5">
-					<span><span id="line_type_speed_value">{{ typeArea.lineTypeSpeed }}</span>kpm</span> - 残り<span id="line_remain_time">{{ lineRemainTime }}</span>秒
-				</div>
+	<div id="top_area">
+		<div id="top_notify" class="mx-2 d-flex justify-content-between font-monospace">
+			<div id="combo_notify" class="fs-4 position-relative">{{ typeArea.combo }}</div>
+			<div id="effect_notify" class="position-absolute fs-4" v-html="typeArea.notify.value"></div>
+			<div id="line_time_notify" class="position-relative fs-5">
+				<span><span id="line_type_speed_value">{{ typeArea.lineTypeSpeed }}</span>kpm</span> - 残り<span id="line_remain_time">{{ lineRemainTime }}</span>秒
 			</div>
-			<progress class="w-100" :value="lineTimeBar" :max="lineTimeBarMax"></progress>
 		</div>
-		<div id="word_area" class="my-1 mx-2">
-			<div id="type_area" class="text-pre font">
-				<div id="main" class="text-shadow text-truncate">
-					<span class='correct-input text-secondary'>{{ mainInput }}</span><span class='next-char text-danger'>{{ mainNextChar }}</span><span class='word'>{{ mainWord }}</span>
-				</div>
-				<div id="sub" class="mt-1 text-shadow text-uppercase text-truncate">
-					<span class='correct-input text-secondary'>{{ subInput }}</span><span class='next-char text-danger'>{{ subNextChar }}</span><span class='word'>{{ subWord }}</span>
-				</div>
-			</div>
-			<div id="lyrics" class="h3 mt-4 text-truncate d-flex">
-				<ruby class="text-pre">　<rt>　</rt></ruby>
-				<div id="lyrics_value" v-html="lyrics"></div>
-			</div>
+		<progress class="w-100" :value="lineTimeBar" :max="lineTimeBarMax"></progress>
+	</div>
 
-			<div id="next" class="mt-3 text-white-50 fs-5">
-				<div id="next_lyrics" class="d-flex text-truncate">
-					<div><ruby class="text-pre">　<rt>　</rt></ruby></div>
-					<div v-html="nextLyrics"></div>
-				</div>
-				<div id="next_speed" class="d-flex text-truncate">
-					<div><ruby class="text-pre">　<rt>　</rt></ruby></div>
-					<div class="fw-normal" v-text="nextTypeSpeed"></div>
-				</div>
+	<div id="word_area" class="my-1 mx-2">
+		<div id="type_area" class="text-pre font">
+			<div id="main" class="text-shadow text-truncate">
+				<span class='correct-input text-secondary'>{{ mainInput }}</span><span class='next-char text-danger'>{{ mainNextChar }}</span><span class='word'>{{ mainWord }}</span>
 			</div>
+			<div id="sub" class="mt-1 text-shadow text-uppercase text-truncate">
+				<span class='correct-input text-secondary'>{{ subInput }}</span><span class='next-char text-danger'>{{ subNextChar }}</span><span class='word'>{{ subWord }}</span>
+			</div>
+		</div>
+		<div id="lyrics" class="h3 mt-4 text-truncate d-flex">
+			<ruby class="text-pre">　<rt>　</rt></ruby>
+			<div id="lyrics_value" v-html="lyrics"></div>
+		</div>
 
-		</div>
-		<div id="bottom_area">
-			<div id="bottom_notify" class="d-flex justify-content-between mx-2 fs-5">
-				<div id="skip_notify" class="fst-italic text-secondary text-pre" v-text="skip"></div>
-				<div id="total_time" class="fw-bold font-monospace"><span id="current_time" v-text="currentTime"></span> / <span id="duration_time" v-text="typeArea.durationTime.value"></span></div>
+		<div id="next" class="mt-3 text-white-50 fs-5">
+			<div id="next_lyrics" class="d-flex text-truncate">
+				<div><ruby class="text-pre">　<rt>　</rt></ruby></div>
+				<div v-html="nextLyrics"></div>
 			</div>
-			<progress class="w-100" :value="currentTimeBar" :max="currentTimeBarMax"></progress>
+			<div id="next_speed" class="d-flex text-truncate">
+				<div><ruby class="text-pre">　<rt>　</rt></ruby></div>
+				<div class="fw-normal" v-text="nextTypeSpeed"></div>
+			</div>
 		</div>
+
+	</div>
+
+	<div id="bottom_area">
+		<div id="bottom_notify" class="d-flex justify-content-between mx-2 fs-5">
+			<div id="skip_notify" class="fst-italic text-secondary text-pre" v-text="skip"></div>
+			<div id="total_time" class="fw-bold font-monospace"><span id="current_time" v-text="currentTime"></span> / <span id="duration_time" v-text="typeArea.durationTime.value"></span></div>
+		</div>
+		<progress class="w-100" :value="currentTimeBar" :max="currentTimeBarMax"></progress>
 	</div>
 </template>
 

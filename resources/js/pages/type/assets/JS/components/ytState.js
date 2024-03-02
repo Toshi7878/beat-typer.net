@@ -1,6 +1,7 @@
 import { Ticker } from "@createjs/easeljs";;
 import { timer, line } from '@/pages/type/assets/JS/components/timer.js';
 import { volume, map, youtube } from '@/pages/type/assets/JS/consts/refs.js';
+import { game } from '@/pages/type/assets/JS/consts/gameRef.js';
 
 
 class PlayerEvent {
@@ -9,11 +10,13 @@ class PlayerEvent {
 		Ticker.on("tick", timer.update.bind(timer))
 		Ticker.timingMode = Ticker.RAF;
 		ytState.state = YTState.LIST[event.data]
+		game.playState.value = 'play'
 	}
 
 	end(event) {
 		ytState.state = YTState.LIST[event.data]
 		Ticker.removeAllEventListeners()
+		game.playState.value = 'end'
 	}
 
 	pause(event) {
@@ -27,6 +30,7 @@ class PlayerEvent {
 
 	ready() {
 		youtube.value.setVolume(volume.value)
+		game.playState.value = 'ready'
 	}
 }
 

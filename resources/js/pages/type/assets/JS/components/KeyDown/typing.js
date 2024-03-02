@@ -1,15 +1,9 @@
-class KeyDown {
+import { typeArea } from '@/pages/type/assets/JS/consts/typeAreaRef.js';
+
+class KeyDown extends KeyJudge {
 
 	constructor(){
-		this.flickInputMaxValue = 0
-		this.continuousSokuonFlag = false
-		this.sokuonChain = ''
-		this.isNWhu = false
-		this.dakuKanaFlag = false
-		this.kanaKeyObjects = 0
-		this.tsuFlag = false
-		this.nextChar = []
-		this.nextPoint = 0
+		super()
 
 		if(keyDown){
 			keyDown.removeEvent()
@@ -96,7 +90,7 @@ class KeyDown {
 
         if(inputMode.kanaMode){
 
-            if(KeyJudge.checkNextKana()){
+            if(this.checkNextKana()){
                 //正答した
                 typingWordRenderer.update('kanaUpdate')
 
@@ -131,7 +125,7 @@ class KeyDown {
         }else{
 
             //zCommand() eventCode == "KeyZ"かどうかを確認
-            if(KeyJudge.checkNextChar(KeyJudge.zCommand(eventCode, shiftKey))){
+            if(this.checkNextChar(this.zCommand(eventCode, shiftKey))){
                 //正答した
 
                 typingCounter.addTypingCount(this.inputChar, shiftKey);
@@ -234,6 +228,17 @@ class KeyDown {
 
 class KeyJudge {
 
+	constructor(){
+		this.flickInputMaxValue = 0
+		this.continuousSokuonFlag = false
+		this.sokuonChain = ''
+		this.isNWhu = false
+		this.dakuKanaFlag = false
+		this.kanaKeyObjects = 0
+		this.tsuFlag = false
+		this.nextPoint = 0
+
+	}
 	static redoFlickAlreadyInput(){
 		keyDown.nextChar[0] = typingWordRenderer.alreadyInputKana.slice(-1)+keyDown.nextChar[0]
 		typingWordRenderer.alreadyInputKana = typingWordRenderer.alreadyInputKana.slice(0,-1)
@@ -241,8 +246,8 @@ class KeyJudge {
 		typingWordRenderer.update('kanaUpdate')
 	}
 
-	static checkNextKana(){
-		keyDown.kanaKeyObjects = [].indexOf.call(keyDown.inputChar, !optionDb.duringPlayOptions['case-sensitive-mode'] ? keyDown.nextChar[0].slice(0,1).toLowerCase(): keyDown.nextChar[0].slice(0,1))
+	checkNextKana(){
+		this.kanaKeyObjects = [].indexOf.call(keyDown.inputChar, !optionDb.duringPlayOptions['case-sensitive-mode'] ? keyDown.nextChar[0].slice(0,1).toLowerCase(): keyDown.nextChar[0].slice(0,1))
 
 		if(keyDown.dakuKanaFlag && keyDown.inputChar[keyDown.kanaKeyObjects] && (keyDown.nextChar[0][0] == "゛" || keyDown.nextChar[0][0] == "゜")){
 			typingCounter.kanaCombo --
@@ -302,7 +307,7 @@ class KeyJudge {
 		return false;
 	}
 
-	static checkNextChar(z_command){
+	checkNextChar(z_command){
 		let flag = false;
 		let romaNextChar = keyDown.nextChar.slice(1)
 		let isKanaUpdate = z_command ? 'kanaUpdate' : false
@@ -328,7 +333,7 @@ class KeyJudge {
 			typingWordRenderer.update('kanaUpdate')
 		}else if(keyDown.nextChar[0] == "..." && keyDown.inputChar == ","){
 			keyDown.nextChar = ["..", ","]
-			keyDown.nextPoint = 2 * parseLyric.scoreParChar
+			this.nextPoint = 2 * parseLyric.scoreParChar
 			line.lineInput.unshift(".")
 			line.lineInputRoma.unshift(".")
 			line.lineInputKana.unshift(".")
@@ -429,7 +434,7 @@ class KeyJudge {
 
 	}
 
-	static zCommand(pushkey,shiftkey){
+	zCommand(pushkey,shiftkey){
 
 		if(pushkey == "KeyZ" && !shiftkey){
 
