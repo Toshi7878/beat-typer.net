@@ -13,10 +13,10 @@ export class TypeArea {
 		//Center
 		this.mainInput = ref(' ')
 		this.mainNextChar = ref('')
-		this.mainWord = ref('')
+		this.mainWord = ref([])
 		this.subInput = ref(' ')
 		this.subNextChar = ref('')
-		this.subWord = ref('')
+		this.subWord = ref([])
 		this.countDown = ref('')
 		this.lyrics = ref('')
 		this.nextLyrics = ref('')

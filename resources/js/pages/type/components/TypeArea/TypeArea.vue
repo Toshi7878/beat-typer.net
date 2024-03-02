@@ -12,7 +12,7 @@ const lineRemainTime = computed(() => { return typeArea.lineRemainTime.value.toF
 const mainInput = computed(() => { return typeArea.mainInput.value })
 const mainNextChar = computed(() => { return typeArea.mainNextChar.value })
 const mainWord = computed(() => {
-	const WORD = typeArea.mainWord.value;
+	const WORD = typeArea.mainWord.value.join("");
 
 	if (WORD) {
 		return WORD
@@ -23,7 +23,7 @@ const mainWord = computed(() => {
 const subInput = computed(() => { return typeArea.subInput.value })
 const subNextChar = computed(() => { return typeArea.subNextChar.value })
 const subWord = computed(() => {
-	const WORD = typeArea.subWord.value;
+	const WORD = typeArea.subWord.value.join("");
 
 	if (WORD) {
 		return WORD

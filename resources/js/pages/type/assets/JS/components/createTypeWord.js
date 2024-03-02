@@ -2,6 +2,7 @@ import { typeArea } from '@/pages/type/assets/JS/consts/typeAreaRef.js';
 import { status } from '@/pages/type/assets/JS/consts/statusRef.js';
 import { Result, result } from '@/pages/type/assets/JS/consts/resultRef.js';
 import { timer } from '@/pages/type/assets/JS/components/timer.js';
+import _ from 'lodash';
 
 //Enterキーで開始ショートカットキー
 //window.addEventListener('keydown', ShortcutHandler.setStartShortcut, true);
@@ -75,8 +76,9 @@ class ParseLyrics{
 
 		for (let i=0; i<STR_LEN; i++){
 
-			if(ROMA_MAP[parseInt(str[i])]){
-				const CHAR = JSON.parse(JSON.stringify(ROMA_MAP[parseInt(str[i])]));
+			const CHAR = _.cloneDeep(ROMA_MAP[parseInt(str[i])]);
+
+			if(CHAR){
 				this.lineWord.push(CHAR)
 
 				//促音の打鍵パターン
@@ -151,7 +153,6 @@ class ParseLyrics{
 		let xtsu = []
 		let ltsu = []
 
-
 		const XTU_LEN = ( PREVIOUS_KANA.match( /っ/g ) || [] ).length
 		const ROMA_LEN = this.lineWord[this.lineWord.length-1]['r'].length
 		//変数に値渡し？して処理する方がわかりやすい(後でリファクタリング)
@@ -181,7 +182,6 @@ class ParseLyrics{
 				for(let i=0;i<this.lineWord[this.lineWord.length-2]['r'].length;i++){
 
 					const ROMA_PATTERN = this.lineWord[this.lineWord.length-2]['r'][i]
-
 					const IS_N = (ROMA_PATTERN.length >= 2 && ROMA_PATTERN[ROMA_PATTERN.length-2] != "x" && ROMA_PATTERN[ROMA_PATTERN.length-1] == "n") || ROMA_PATTERN=="n"
 			
 					if(IS_N){
@@ -318,10 +318,8 @@ export class Map extends ParseLyrics{
 				this.lineLength++;
 				lineSpeed = this.data[i+1]['time']-this.data[i]['time']
 
-				for (const item of this.typePattern[i]) {
-					kanaWord.push(item.k);
-					romaWord.push(item.r[0]);
-				}
+				kanaWord = _.map(this.typePattern[i], 'k');
+				romaWord = _.map(this.typePattern[i], obj => _.get(obj, 'r[0]'));
 
 				//かな入力
 				dakuHandakuLineNotes = (kanaWord.join("").match( /[ゔ|が|ぎ|ぐ|げ|ご|ざ|じ|ず|ぜ|ぞ|だ|ぢ|づ|で|ど|ば|び|ぶ|べ|ぼ|ぱ|ぴ|ぷ|ぺ|ぽ]/g ) || [] ).length
@@ -611,8 +609,8 @@ const ROMA_MAP = [
 	{"k": "、","r": [","]},
 	{"k": "。","r": ["."]},
 	{"k": "・","r": ["/","z/"]},
-	{"k": "”","r": ["\""]},
-	{"k": "“","r": ["\""]},
+	{"k": "”","r": ['"']},
+	{"k": "“","r": ['"']},
 	{"k": "’","r": ["'"]},
 	{"k": "￥","r": ["\\"]},
 	{"k": "「","r": ["["]},

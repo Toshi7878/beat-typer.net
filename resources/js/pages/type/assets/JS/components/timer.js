@@ -111,10 +111,10 @@ class Next {
 	setWord(){
 		typeArea.mainInput.value = ''
 		typeArea.mainNextChar.value = ''
-		typeArea.mainWord.value = map.value.lineWords[this.count]['k'].join('')
+		typeArea.mainWord.value = map.value.lineWords[this.count]['k']
 		typeArea.subInput.value = 
 		typeArea.subNextChar.value = ''
-		typeArea.subWord.value = map.value.lineWords[this.count]['r'].join('')
+		typeArea.subWord.value = map.value.lineWords[this.count]['r']
 
 	}
 

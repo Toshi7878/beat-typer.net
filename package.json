@@ -24,6 +24,7 @@
         "bootstrap-vue-next": "^0.16.1",
         "createjs": "^1.0.1",
         "dexie": "^3.2.5",
+        "lodash": "^4.17.21",
         "node-sass": "^9.0.0",
         "sass-loader": "^14.1.1",
         "vue": "^3.4.15",
