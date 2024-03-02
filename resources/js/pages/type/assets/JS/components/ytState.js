@@ -1,9 +1,37 @@
 import { Ticker } from "@createjs/easeljs";;
 import { timer, line } from '@/pages/type/assets/JS/components/timer.js';
-import { volume, lineData, youtube } from '@/pages/type/assets/JS/consts/refs.js';
-import { LineBlur } from '@/pages/type/assets/JS/components/selectBlur.js';
+import { volume, map, youtube } from '@/pages/type/assets/JS/consts/refs.js';
 
-class YTState{
+
+class PlayerEvent {
+
+	play(event) {
+		Ticker.on("tick", timer.update.bind(timer))
+		Ticker.timingMode = Ticker.RAF;
+		ytState.state = YTState.LIST[event.data]
+	}
+
+	end(event) {
+		ytState.state = YTState.LIST[event.data]
+		Ticker.removeAllEventListeners()
+	}
+
+	pause(event) {
+		ytState.state = YTState.LIST[event.data]
+		Ticker.removeAllEventListeners()
+	}
+
+	seek(event) {
+		//line.getLineCount(event.target.getCurrentTime())
+	}
+
+	ready() {
+		youtube.value.setVolume(volume.value)
+	}
+}
+
+
+class YTState extends PlayerEvent{
 
 	static LIST = {
 		0:'end',
@@ -13,6 +41,7 @@ class YTState{
 	}
 
 	constructor(){
+		super()
 		this.state = 'ready'
 	}
 
@@ -22,7 +51,7 @@ class YTState{
 	
 			case 1: //再生(player.playVideo)
 				console.log("再生 1")
-				PlayerEvent.play(event)
+				ytState.play(event)
 				break;
 	
 			case 0: //プレイ終了(最後まで再生した)
@@ -34,17 +63,17 @@ class YTState{
 					console.log("動画停止 5")
 				}
 	
-				PlayerEvent.end(event)
+				ytState.end(event)
 				break;
 	
 			case 2: //一時停止(player.pauseVideo)
 				console.log("一時停止 2")
-				PlayerEvent.pause(event)
+				ytState.pause(event)
 				break;
 	
 			case 3: //再生時間移動 スキップ(player.seekTo)
 				console.log("シーク 3")
-				PlayerEvent.seek(event)
+				ytState.seek(event)
 				break;
 	
 			case -1: //	未スタート、他の動画に切り替えた時など
@@ -56,37 +85,6 @@ class YTState{
 			document.activeElement.blur()
 		}
 	}
-
-	async ready() {
-		const DURATION = youtube.value.getDuration()
-		// document.getElementById("time-bar").max = DURATION
-		// document.getElementById("time-bar").value = 0
-		youtube.value.setVolume(volume.value)
-	}
 }
 
 export const ytState = new YTState()
-
-class PlayerEvent {
-
-	static play(event) {
-		Ticker.on("tick", timer.update.bind(timer))
-		Ticker.timingMode = Ticker.RAF;
-		ytState.state = YTState.LIST[event.data]
-	}
-
-	static end(event) {
-		ytState.state = YTState.LIST[event.data]
-		Ticker.removeAllEventListeners()
-	}
-
-	static pause(event) {
-		ytState.state = YTState.LIST[event.data]
-		Ticker.removeAllEventListeners()
-	}
-
-	static seek(event) {
-		line.getLineCount(event.target.getCurrentTime())
-		line.blurBackgroundColor()
-	}
-}

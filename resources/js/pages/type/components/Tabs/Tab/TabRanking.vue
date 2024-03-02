@@ -58,7 +58,7 @@
 
 <style>
 #ranking tbody {
-	height: 136px;
+	height: 143.5px;
 	overflow-y: scroll;
 	table-layout: fixed;
 	display: block;

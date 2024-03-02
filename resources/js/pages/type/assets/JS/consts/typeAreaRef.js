@@ -1,24 +1,35 @@
 import { ref } from 'vue';
 
-//タイプエリア
-export const combo = ref(0)
-export const notify = ref(0)
-export const lineTypeSpeed = ref(0) 
-export const remainTime = ref(0)
-export const lineTimeBar = ref(0)
+export class TypeArea {
+	constructor(){
+		//Top
+		this.combo = ref(0)
+		this.notify = ref(`<font-awesome-icon icon="pause" />`)
+		this.lineTypeSpeed = ref(0)
+		this.lineRemainTime = ref('0.00')
+		this.lineTimeBar = ref(0)
+		this.lineTimeBarMax = ref(100)
 
-export const mainInput = ref(0)
-export const mainNextChar = ref(0)
-export const mainWord = ref(0)
-export const subInput = ref(0)
-export const subNextChar = ref(0)
-export const subWord = ref(0)
-export const countDown = ref('')
-export const lyrics = ref('<ruby>　<rt>　</rt>')
-export const nextLyrics = ref('<ruby>　<rt>　</rt>')
-export const nextTypeSpeed = ref(0)
+		//Center
+		this.mainInput = ref(' ')
+		this.mainNextChar = ref('')
+		this.mainWord = ref('')
+		this.subInput = ref(' ')
+		this.subNextChar = ref('')
+		this.subWord = ref('')
+		this.countDown = ref('')
+		this.lyrics = ref('')
+		this.nextLyrics = ref('')
+		this.nextTypeSpeed = ref(' ')
 
-export const Skip = ref('')
-export const currentTime = ref('')
-export const durationTime = ref('')
-export const currentTimeBar = ref(0)
+		//Bottom
+		this.skip = ref(' ')
+		this.currentTime = ref('00:00')
+		this.durationTime = ref('00:00')
+		this.currentTimeBar = ref(0)
+		this.currentTimeBarMax = ref(100)
+
+	}
+}
+
+export const typeArea = new TypeArea();

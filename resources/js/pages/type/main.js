@@ -16,6 +16,14 @@ import './assets/CSS/app.css'
 import "./assets/SCSS/custom.scss"
 
 
+//font awesome
+import { library } from '@fortawesome/fontawesome-svg-core'
+import { faPause, faForward } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
+
+library.add(faPause, faForward)
+
+
 const app = createApp(App)
 
 app.use(createBootstrap()) // Important
@@ -26,4 +34,5 @@ app
 .component('Modal', Modal)
 .component('tabs', Tabs)
 .component('tab', Tab)
+.component('font-awesome-icon', FontAwesomeIcon)
 .mount('#app')

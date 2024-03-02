@@ -18,14 +18,4 @@ export const volume = ref(50)
 //動画スピード
 export const speed = ref(1)
 
-
-
-
-
-
-
-
-
-//ラインデータ
-/*{ time: 0, lyrics: '', word: '' }*/
-export const lineData = ref([]);
+export const map = ref(null);

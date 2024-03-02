@@ -11,3 +11,9 @@
 	color: #ddd;
 	border-color: #414141;
 }
+
+.text-truncate {
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: pre;
+}

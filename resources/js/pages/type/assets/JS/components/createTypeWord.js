@@ -1,3 +1,4 @@
+import { typeArea } from '@/pages/type/assets/JS/consts/typeAreaRef.js';
 
 //Enterキーで開始ショートカットキー
 //window.addEventListener('keydown', ShortcutHandler.setStartShortcut, true);
@@ -13,8 +14,8 @@ class ParseLyrics{
 
 		let	lyrics = ""
 
-		for (let li=1; li<this.map.length; li++){
-			let line = this.map[li];
+		for (let li=0; li<this.data.length; li++){
+			let line = this.data[li];
 
 			lyrics += line['word'].replace(/[ 　]+$/,"").replace(/^[ 　]+/,"")+"\n"
 
@@ -50,9 +51,9 @@ class ParseLyrics{
 
 		lyrics = lyrics.split("\n");
 
-		for(let i=0;i<this.map.length;i++){
+		for(let i=0;i<this.data.length;i++){
 
-			if(lyrics[i] && this.map[i]['lyrics'] != "end"){
+			if(lyrics[i] && this.data[i]['lyrics'] != "end"){
 				const arr = this.hiraganaToRomaArray(lyrics[i]);
 				this.typePattern.push(arr);
 			} else {
@@ -219,14 +220,14 @@ class ParseLyrics{
 
 }
 
-export class MapData extends ParseLyrics{
+export class Map extends ParseLyrics{
 
 	constructor(data){
 		super(data)
 		this.typePattern = []
 		this.lineWords = []
-		this.map = data
-		this.mapStyle = ''
+		this.data = data
+		this.style = ''
 		this.scoreParChar = 0
 		this.missPenalty = 0
 		
@@ -280,17 +281,17 @@ export class MapData extends ParseLyrics{
 		}
 
 		//適用するCSSテーマ
-		this.mapStyle = this.map[0]['lyrics'].match(/<style(?: .+?)?>.*?<\/style>/g)
+		this.style = this.data[0]['lyrics'].match(/<style(?: .+?)?>.*?<\/style>/g)
 	}
 
-	setTotalTime(){
-		this.movieTotalTime = this.map[this.map.length-1]['time']///movieSpeedController.speed;
-		this.movieTimeMM = ("00" + parseInt(parseInt(this.movieTotalTime) / 60)).slice(-2)
-		this.movieTimeSS = ("00" +(parseInt(this.movieTotalTime) - this.movieTimeMM * 60)).slice(-2)
+	setTotalTime(endLine){
+		typeArea.currentTimeBarMax.value = endLine['time']///movieSpeedController.speed;
+		this.movieTimeMM = ("00" + parseInt(parseInt(endLine['time']) / 60)).slice(-2)
+		this.movieTimeSS = ("00" +(parseInt(endLine['time']) - this.movieTimeMM * 60)).slice(-2)
 	}
 
 	getScorePerChar(){
-		const LINE_LEN = this.map.length
+		const LINE_LEN = this.data.length
 
 		for (let i=0; i<LINE_LEN; i++){
 			let romaLineNotes = 0
@@ -302,14 +303,14 @@ export class MapData extends ParseLyrics{
 			let kanaWord = []
 			let romaWord = []
 
-			if(this.map[i]['lyrics']!='end' && this.typePattern[i].length){
+			if(this.data[i]['lyrics']!='end' && this.typePattern[i].length){
 
 				if(this.startLine == 0){
 					this.startLine = i+1
 				}
 
 				this.lineLength++;
-				lineSpeed = this.map[i+1]['time']-this.map[i]['time']
+				lineSpeed = this.data[i+1]['time']-this.data[i]['time']
 
 				for (const item of this.typePattern[i]) {
 					kanaWord.push(item.k);
@@ -325,7 +326,7 @@ export class MapData extends ParseLyrics{
 				romaLineNotes = romaWord.join('').length
 				this.romaTotalNotes += romaLineNotes
 
-			}else if(this.map[i]['lyrics'] == 'end'){
+			}else if(this.data[i]['lyrics'] == 'end'){
 
 				this.romaMedianSpeed = this.median(this.romaLineSpeedList);
 				this.kanaMedianSpeed = this.median(this.kanaLineSpeedList);
@@ -335,7 +336,7 @@ export class MapData extends ParseLyrics{
 				this.scoreParChar = 100 / (this.romaTotalNotes)
 				this.missPenalty = this.scoreParChar/4
 
-				this.setTotalTime()
+				this.setTotalTime(this.data[i])
 				// if(movieSpeedController.fixedSpeed){
 				// 	movieSpeedController.speed = movieSpeedController.fixedSpeed
 				// 	movieSpeedController.playSpeed = movieSpeedController.fixedSpeed;
