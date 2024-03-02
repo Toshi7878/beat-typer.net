@@ -131,7 +131,7 @@ class Next {
 		const NEXT_TO_NEXT = map.value.data[line.count]
 		typeArea.lineTimeBarMax.value = NEXT_TO_NEXT.time - next.time
 		typeArea.nextLyrics.value = NEXT_TO_NEXT.lyrics
-		typeArea.nextTypeSpeed.value = map.value.romaLineSpeedList[this.count]*60
+		typeArea.nextTypeSpeed.value = (map.value.romaLineSpeedList[this.count]*60)*speed.value
 	}
 }
 

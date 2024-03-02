@@ -3,6 +3,7 @@ import { timer, line } from '@/pages/type/assets/JS/components/timer.js';
 import { map } from '@/pages/type/assets/JS/consts/refs.js';
 import { game } from '@/pages/type/assets/JS/consts/gameRef.js';
 import { youtube, volume } from '@/templates/assets/JS/youtubeRef.js'
+import { tabRef, changeTab } from '@/pages/type/assets/JS/consts/tabRef.js';
 
 
 class PlayerEvent {
@@ -12,6 +13,7 @@ class PlayerEvent {
 		Ticker.timingMode = Ticker.RAF;
 		ytState.state = YTState.LIST[event.data]
 		game.playState.value = 'play'
+		changeTab('ステータス')
 	}
 
 	end(event) {
@@ -32,6 +34,10 @@ class PlayerEvent {
 	ready() {
 		youtube.value.setVolume(volume.value)
 		game.playState.value = 'ready'
+	}
+
+	playbackRateChange(event){
+		map.value.setTotalTime(map.value.movieTotalTime)
 	}
 }
 

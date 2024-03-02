@@ -2,6 +2,7 @@ import { typeArea } from '@/pages/type/assets/JS/consts/typeAreaRef.js';
 import { status } from '@/pages/type/assets/JS/consts/statusRef.js';
 import { Result, result } from '@/pages/type/assets/JS/consts/resultRef.js';
 import { timer } from '@/pages/type/assets/JS/components/timer.js';
+import { speed } from '@/templates/assets/JS/youtubeRef.js'
 import _ from 'lodash';
 
 const ZENKAKU_LIST = ["０", "１", "２", "３", "４", "５", "６", "７", "８", "９", "Ａ", "Ｂ", "Ｃ", "Ｄ", "Ｅ", "Ｆ", "Ｇ", "Ｈ", "Ｉ", "Ｊ", "Ｋ", "Ｌ", "Ｍ", "Ｎ", "Ｏ", "Ｐ", "Ｑ", "Ｒ", "Ｓ", "Ｔ", "Ｕ", "Ｖ", "Ｗ", "Ｘ", "Ｙ", "Ｚ", "ａ", "ｂ", "ｃ", "ｄ", "ｅ", "ｆ", "ｇ", "ｈ", "ｉ", "ｊ", "ｋ", "ｌ", "ｍ", "ｎ", "ｏ", "ｐ", "ｑ", "ｒ", "ｓ", "ｔ", "ｕ", "ｖ", "ｗ", "ｘ", "ｙ", "ｚ", "～", "＆", "％", "！", "？", "＠", "＃", "＄", "（", "）", "｜", "｛", "｝", "｀", "＊", "＋", "：", "；", "＿", "＜", "＞", "＝", "＾"]
@@ -285,13 +286,13 @@ export class Map extends ParseLyrics{
 		this.style = this.data[0]['lyrics'].match(/<style(?: .+?)?>.*?<\/style>/g)
 	}
 
-	setTotalTime(endLine){
-		this.movieTotalTime = endLine['time']///movieSpeedController.speed;
-		this.movieTimeMM = ("00" + parseInt(parseInt(this.movieTotalTime) / 60)).slice(-2)
-		this.movieTimeSS = ("00" +(parseInt(this.movieTotalTime) - this.movieTimeMM * 60)).slice(-2)
-		typeArea.currentTimeBarMax.value = this.movieTotalTime;
+	setTotalTime(endTime){
+		const TIME = endTime/speed.value;
+		this.movieTimeMM = ("00" + parseInt(parseInt(TIME) / 60)).slice(-2)
+		this.movieTimeSS = ("00" +(parseInt(TIME) - TIME * 60)).slice(-2)
+		typeArea.currentTimeBarMax.value = TIME;
 		typeArea.durationTime.value = `${this.movieTimeMM}:${this.movieTimeSS}`;
-		timer.currentTimeBarFrequency = this.movieTotalTime/1700 //1700 = 更新頻度の閾値
+		timer.currentTimeBarFrequency = TIME/1700 //1700 = 更新頻度の閾値
 	}
 
 	getScorePerChar(){
@@ -337,8 +338,8 @@ export class Map extends ParseLyrics{
 
 				this.scoreParChar = 100 / (this.romaTotalNotes)
 				this.missPenalty = this.scoreParChar/4
-
-				this.setTotalTime(this.data[i])
+				this.movieTotalTime = this.data[i].time
+				this.setTotalTime(this.movieTotalTime)
 
 				status.lineCount.value = this.lineLength
 				result.value = new Result(LINE_LEN);

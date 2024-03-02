@@ -13,7 +13,7 @@ const ID = window.movieId
 <template>
 	<div id="youtube_container" class="col-xs mb-3 me-2" :class="{'invisible': map.value}">
 		<!-- 16:9をpx単位で計算してwidthとheightを求める https://uzurea.net/resolution-16-9/ -->
-		<YouTube :src="ID" :vars="vars" width="382.2222px" height="215px" @ready="ytState.ready()" ref="youtube" @state-change="ytState.change" />
+		<YouTube :src="ID" :vars="vars" width="382.2222px" height="215px" @ready="ytState.ready()" ref="youtube" @state-change="ytState.change" @playback-rate-change="ytState.playbackRateChange"/>
 	</div>
 </template>
 

@@ -1,16 +1,7 @@
-  
-<script setup>
-import { tabRef } from '@/pages/type/assets/JS/consts/refs.js';
 
-import TabRanking from '@/pages/type/components/Tabs/Tab/TabRanking.vue';
-import TabStatus from '@/pages/type/components/Tabs/Tab/TabStatus.vue';
-
-
-
-</script>
 
 <template>
-  <tabs ref="tabRef" class="col mx-2" :options="{ useUrlFragment: false }">
+  <tabs ref="tabRef" class="col mx-2" cache-lifetime="0" :options="{ useUrlFragment: false, defaultTabHash: 'ランキング' }">
     <tab name="ステータス" id="ステータス" class="row">
       <TabStatus />
     </tab>
@@ -19,6 +10,16 @@ import TabStatus from '@/pages/type/components/Tabs/Tab/TabStatus.vue';
     </tab>
   </tabs>
 </template>
+
+  
+<script setup>
+import { tabRef, changeTab } from '@/pages/type/assets/JS/consts/tabRef.js';
+
+import TabRanking from '@/pages/type/components/Tabs/Tab/TabRanking.vue';
+import TabStatus from '@/pages/type/components/Tabs/Tab/TabStatus.vue';
+
+
+</script>
 
 <style>
 .tabs-component {
