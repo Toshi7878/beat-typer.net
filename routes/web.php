@@ -19,8 +19,8 @@ use App\Http\Controllers\GetMapController;
 |
 */
 
-Route::get('/movie/edit/new', [EditController::class, 'newCreate']);
-Route::get('/movie/type/{id}', TypeController::class);
+Route::get('/edit/new', [EditController::class, 'newCreate']);
+Route::get('/type/{id}', TypeController::class);
 
 
 Route::get('/edit/post', [PostMapController::class, 'create']);

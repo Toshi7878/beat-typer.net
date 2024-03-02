@@ -53,7 +53,7 @@ const nextTypeSpeed = computed(() => {
 					<span class='correct-input text-secondary'>{{ subInput }}</span><span class='next-char text-danger'>{{ subNextChar }}</span><span class='word'>{{ subWord }}</span>
 				</div>
 			</div>
-			<div id="lyrics" class="h3 mt-4 text-truncate d-flex">
+			<div id="lyrics" class="h3 mt-3 text-truncate d-flex">
 				<ruby class="text-pre">　<rt>　</rt></ruby>
 				<div id="lyrics_value" v-html="lyrics"></div>
 			</div>

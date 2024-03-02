@@ -28,14 +28,4 @@ class Event {
 #time-bar {
 	margin: 0.5rem;
 }
-
-.f-key {
-	position: absolute;
-	top: -0.6em;
-	left: 50%;
-	transform: translateX(-50%);
-	-webkit-transform: translateX(-50%);
-	-ms-transform: translateX(-50%);
-	font-size: 80%;
-}
 </style>

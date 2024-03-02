@@ -15,12 +15,12 @@ import SpeedButton from '@/templates/SpeedButton.vue'
 	</group>
 
 	<div class="d-flex justify-content-between text-white mx-3 mt-5">
-		<div class="d-inline-flex align-items-center px-2 rounded border border-1 border-white" style="transform: scale(1);" id="speed_button">
+		<div class="d-inline-flex align-items-center px-4 rounded border border-1 border-white" id="speed_button">
 			<SpeedButton />
 		</div>
 
 		<div class="border border-1 border-white">
-  			<button id="practice_button" type="button" class="btn px-5 py-3 fw-bold fs-4">練習モードで開始</button>
+  			<button id="practice_button" type="button" class="btn px-5 py-2 fw-bold fs-4">練習モードで開始</button>
 		</div>
 	</div>
 </div>
