@@ -37,25 +37,25 @@ const durationTime = computed(() => {
 <template>
 	<div class="w-100 pt-3 pb-4 shadow bg-body-tertiary rounded fw-bold">
 		<div id="top_area">
-			<div id="top_notify" :class="{'invisible': game.playState.value == 'ready'}" class="mx-2 d-flex justify-content-between font-monospace">
+			<div id="top_notify" :class="{'invisible': game.playState.value != 'play'}" class="mx-2 d-flex justify-content-between font-monospace">
 				<div id="combo_notify" class="fs-4 position-relative">{{ typeArea.combo }}</div>
 				<div id="effect_notify" class="position-absolute fs-4" v-html="typeArea.notify.value"></div>
 				<div id="line_time_notify" class="position-relative fs-5">
 					<span><span id="line_type_speed_value">{{ typeArea.lineTypeSpeed }}</span>kpm</span> - 残り<span id="line_remain_time">{{ lineRemainTime }}</span>秒
 				</div>
 			</div>
-			<progress class="w-100" :value="lineTimeBar" :max="lineTimeBarMax"></progress>
+			<progress class="w-100" :value="lineTimeBar" :max="lineTimeBarMax" :class="{'invisible': game.playState.value == 'end'}"></progress>
 		</div>
 
 		<Ready v-if="game.playState.value === 'ready'"/>
 		<Lyrics v-else-if="game.playState.value === 'play'"/>
 
 		<div id="bottom_area">
-			<div id="bottom_notify" :class="{'invisible': game.playState.value == 'ready'}" class="d-flex justify-content-between mx-2 fs-5">
+			<div id="bottom_notify" :class="{'invisible': game.playState.value != 'play'}" class="d-flex justify-content-between mx-2 fs-5">
 				<div id="skip_notify" class="fst-italic text-secondary text-pre" v-text="skip"></div>
 				<div id="total_time" class="fw-bold font-monospace"><span id="current_time" v-text="currentTime"></span> / <span id="duration_time" v-text="durationTime"></span></div>
 			</div>
-			<progress class="w-100" :value="currentTimeBar" :max="currentTimeBarMax"></progress>
+			<progress class="w-100" :value="currentTimeBar" :max="currentTimeBarMax" :class="{'invisible': game.playState.value == 'end'}"></progress>
 		</div>
 	</div>
 
