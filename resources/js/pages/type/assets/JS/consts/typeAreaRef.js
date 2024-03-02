@@ -32,4 +32,4 @@ export class TypeArea {
 	}
 }
 
-export const typeArea = new TypeArea();
+export let typeArea = new TypeArea()

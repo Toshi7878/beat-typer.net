@@ -15,4 +15,4 @@ export class Status {
 
 }
 
-export const status = new Status()
+export let status = new Status();

@@ -1,6 +1,7 @@
 import {map, youtube} from '@/pages/type/assets/JS/consts/refs.js';
 import { typeArea } from '@/pages/type/assets/JS/consts/typeAreaRef.js';
 import { status } from '@/pages/type/assets/JS/consts/statusRef.js';
+import { result } from '@/pages/type/assets/JS/consts/resultRef.js';
 
 
 class Timer {

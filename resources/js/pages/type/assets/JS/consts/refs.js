@@ -18,4 +18,5 @@ export const volume = ref(50)
 //動画スピード
 export const speed = ref(1)
 
+
 export const map = ref(null);
