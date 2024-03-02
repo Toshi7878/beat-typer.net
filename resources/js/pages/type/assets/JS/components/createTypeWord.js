@@ -1,4 +1,5 @@
 import { typeArea } from '@/pages/type/assets/JS/consts/typeAreaRef.js';
+import { status } from '@/pages/type/assets/JS/consts/statusRef.js';
 
 //Enterキーで開始ショートカットキー
 //window.addEventListener('keydown', ShortcutHandler.setStartShortcut, true);
@@ -337,6 +338,8 @@ export class Map extends ParseLyrics{
 				this.missPenalty = this.scoreParChar/4
 
 				this.setTotalTime(this.data[i])
+
+				status.lineCount.value = this.lineLength
 				// if(movieSpeedController.fixedSpeed){
 				// 	movieSpeedController.speed = movieSpeedController.fixedSpeed
 				// 	movieSpeedController.playSpeed = movieSpeedController.fixedSpeed;
