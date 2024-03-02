@@ -6,7 +6,7 @@ export class TypeArea {
 		this.combo = ref(0)
 		this.notify = ref(`<font-awesome-icon icon="pause" />`)
 		this.lineTypeSpeed = ref(0)
-		this.lineRemainTime = ref('0.00')
+		this.lineRemainTime = ref(0)
 		this.lineTimeBar = ref(0)
 		this.lineTimeBarMax = ref(100)
 
@@ -23,8 +23,8 @@ export class TypeArea {
 		this.nextTypeSpeed = ref(' ')
 
 		//Bottom
-		this.skip = ref(' ')
-		this.currentTime = ref('00:00')
+		this.skip = ref('')
+		this.currentTime = ref(0)
 		this.durationTime = ref('00:00')
 		this.currentTimeBar = ref(0)
 		this.currentTimeBarMax = ref(100)

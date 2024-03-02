@@ -1,6 +1,7 @@
 import { typeArea } from '@/pages/type/assets/JS/consts/typeAreaRef.js';
 import { status } from '@/pages/type/assets/JS/consts/statusRef.js';
 import { Result, result } from '@/pages/type/assets/JS/consts/resultRef.js';
+import { timer } from '@/pages/type/assets/JS/components/timer.js';
 
 //Enterキーで開始ショートカットキー
 //window.addEventListener('keydown', ShortcutHandler.setStartShortcut, true);
@@ -287,9 +288,12 @@ export class Map extends ParseLyrics{
 	}
 
 	setTotalTime(endLine){
-		typeArea.currentTimeBarMax.value = endLine['time']///movieSpeedController.speed;
-		this.movieTimeMM = ("00" + parseInt(parseInt(endLine['time']) / 60)).slice(-2)
-		this.movieTimeSS = ("00" +(parseInt(endLine['time']) - this.movieTimeMM * 60)).slice(-2)
+		this.movieTotalTime = endLine['time']///movieSpeedController.speed;
+		this.movieTimeMM = ("00" + parseInt(parseInt(this.movieTotalTime) / 60)).slice(-2)
+		this.movieTimeSS = ("00" +(parseInt(this.movieTotalTime) - this.movieTimeMM * 60)).slice(-2)
+		typeArea.currentTimeBarMax.value = this.movieTotalTime;
+		typeArea.durationTime.value = `${this.movieTimeMM}:${this.movieTimeSS}`;
+		timer.currentTimeBarFrequency = this.movieTotalTime/1700 //1700 = 更新頻度の閾値
 	}
 
 	getScorePerChar(){
