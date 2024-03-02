@@ -22,14 +22,6 @@ export const WORD = ref("")
 //追加時タイム補正データ
 export const timeDiff = ref(-0.15)
 
-//YouTube API
-export const youtube = ref('')
-
-//ボリューム
-export const volume = ref(50)
-
-//動画スピード
-export const speed = ref(1)
 //タイムプログレスバー タイム値
 export const TIME_BAR_VAL = ref('')
 

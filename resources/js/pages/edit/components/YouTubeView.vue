@@ -1,7 +1,7 @@
 <script setup>
 import YouTube from 'vue3-youtube'
 import { ytState } from '@/pages/edit/assets/JS/components/ytState.js';
-import { youtube } from '@/pages/edit/assets/JS/consts/refs.js';
+import { youtube } from '@/templates/assets/JS/youtubeRef.js'
 
 
 

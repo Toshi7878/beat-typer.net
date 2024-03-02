@@ -1,4 +1,5 @@
-import { lineData, NUMBER, TIME, speed, youtube, changeTab, undoSet, redoSet } from '@/pages/edit/assets/JS/consts/refs.js';
+import { lineData, NUMBER, TIME, changeTab, undoSet, redoSet } from '@/pages/edit/assets/JS/consts/refs.js';
+import { youtube, speed } from '@/templates/assets/JS/youtubeRef.js'
 import { LineBlur } from '@/pages/edit/assets/JS/components/selectBlur.js';
 import { setLyrics } from '@/pages/edit/assets/JS/components/lyricsBox.js';
 import { ytState } from '@/pages/edit/assets/JS/components/ytState.js';

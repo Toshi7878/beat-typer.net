@@ -1,6 +1,7 @@
 import { Ticker } from "@createjs/easeljs";;
 import { timer, line } from '@/pages/edit/assets/JS/components/timer.js';
-import { volume, lineData, youtube, URL, TITLE } from '@/pages/edit/assets/JS/consts/refs.js';
+import { lineData, URL, TITLE } from '@/pages/edit/assets/JS/consts/refs.js';
+import { youtube, speed, volume } from '@/templates/assets/JS/youtubeRef.js'
 import { LineBlur } from '@/pages/edit/assets/JS/components/selectBlur.js';
 
 class YTState{

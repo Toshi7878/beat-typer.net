@@ -1,6 +1,7 @@
 <script setup>
-import { youtube, changeTab, lineData, NUMBER, TIME, LYRIC, WORD } from '@/pages/edit/assets/JS/consts/refs.js';
+import { changeTab, lineData, NUMBER, TIME, LYRIC, WORD } from '@/pages/edit/assets/JS/consts/refs.js';
 import { LineBlur } from '@/pages/edit/assets/JS/components/selectBlur.js';
+import { youtube, speed, volume } from '@/templates/assets/JS/youtubeRef.js'
 
 const columns = [
 	{

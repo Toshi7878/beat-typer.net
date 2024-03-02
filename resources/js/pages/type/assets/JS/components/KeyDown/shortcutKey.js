@@ -1,4 +1,6 @@
-import { map, speed, youtube } from '@/pages/type/assets/JS/consts/refs.js';
+import { map } from '@/pages/type/assets/JS/consts/refs.js';
+import { youtube, speed } from '@/templates/assets/JS/youtubeRef.js'
+
 import { ytState } from '@/pages/type/assets/JS/components/ytState.js';
 
 class KeyHandler {

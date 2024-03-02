@@ -1,7 +1,8 @@
 <script setup>
 
-import { youtube, volume, convertMode } from '@/pages/edit/assets/JS/consts/refs.js';
+import { convertMode } from '@/pages/edit/assets/JS/consts/refs.js';
 import { db, option } from '@/pages/edit/assets/JS/DB/db.js';
+import { youtube, speed, volume } from '@/templates/assets/JS/youtubeRef.js'
 
 
 class Event {

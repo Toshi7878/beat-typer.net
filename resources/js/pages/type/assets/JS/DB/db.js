@@ -1,4 +1,5 @@
-import { volume, convertMode } from '@/pages/type/assets/JS/consts/refs.js';
+import { convertMode } from '@/pages/type/assets/JS/consts/refs.js';
+import { volume } from '@/templates/assets/JS/youtubeRef.js'
 
 import Dexie from 'dexie';
 

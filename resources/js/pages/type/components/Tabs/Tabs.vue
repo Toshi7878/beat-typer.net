@@ -24,6 +24,7 @@ import TabStatus from '@/pages/type/components/Tabs/Tab/TabStatus.vue';
 .tabs-component {
   position: relative;
   top: -6.5px;
+  
 }
 
 .tabs-component-tabs {

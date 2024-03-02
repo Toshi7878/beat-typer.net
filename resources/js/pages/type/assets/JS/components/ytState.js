@@ -1,7 +1,8 @@
 import { Ticker } from "@createjs/easeljs";;
 import { timer, line } from '@/pages/type/assets/JS/components/timer.js';
-import { volume, map, youtube } from '@/pages/type/assets/JS/consts/refs.js';
+import { map } from '@/pages/type/assets/JS/consts/refs.js';
 import { game } from '@/pages/type/assets/JS/consts/gameRef.js';
+import { youtube, volume } from '@/templates/assets/JS/youtubeRef.js'
 
 
 class PlayerEvent {
