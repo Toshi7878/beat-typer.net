@@ -25,10 +25,8 @@ export class TypeArea {
 		//Bottom
 		this.skip = ref('')
 		this.currentTime = ref(0)
-		this.durationTime = ref('00:00')
+		this.durationTime = ref(0)
 		this.currentTimeBar = ref(0)
-		this.currentTimeBarMax = ref(100)
-
 	}
 }
 

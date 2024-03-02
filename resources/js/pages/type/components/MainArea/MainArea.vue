@@ -14,17 +14,24 @@ const lineRemainTime = computed(() => { return typeArea.lineRemainTime.value.toF
 
 //Bottom
 const currentTimeBar = computed(() => { return typeArea.currentTimeBar.value })
-const currentTimeBarMax = computed(() => { return typeArea.currentTimeBarMax.value })
+const currentTimeBarMax = computed(() => { return typeArea.durationTime.value })
 const skip = computed(() => { return typeArea.skip.value })
 
 const currentTime = computed(() => {
-const TIME = typeArea.currentTime.value 
-const MM = ("00" + parseInt(parseInt(TIME) / 60)).slice(-2);
-const SS = ("00" +(parseInt(TIME) - ("00" + parseInt(parseInt(TIME) / 60)).slice(-2) * 60)).slice(-2)
+	const TIME = typeArea.currentTime.value
+	const MM = ("00" + parseInt(TIME / 60)).slice(-2)
+	const SS = ("00" + parseInt(TIME % 60)).slice(-2)
 
 	return `${MM}:${SS}`
 })
 
+const durationTime = computed(() => {
+	const TIME = typeArea.durationTime.value
+	const MM = ("00" + parseInt(TIME / 60)).slice(-2)
+	const SS = ("00" + parseInt(TIME % 60)).slice(-2)
+
+	return `${MM}:${SS}`
+})
 </script>
 
 <template>
@@ -46,7 +53,7 @@ const SS = ("00" +(parseInt(TIME) - ("00" + parseInt(parseInt(TIME) / 60)).slice
 		<div id="bottom_area">
 			<div id="bottom_notify" :class="{'invisible': game.playState.value == 'ready'}" class="d-flex justify-content-between mx-2 fs-5">
 				<div id="skip_notify" class="fst-italic text-secondary text-pre" v-text="skip"></div>
-				<div id="total_time" class="fw-bold font-monospace"><span id="current_time" v-text="currentTime"></span> / <span id="duration_time" v-text="typeArea.durationTime.value"></span></div>
+				<div id="total_time" class="fw-bold font-monospace"><span id="current_time" v-text="currentTime"></span> / <span id="duration_time" v-text="durationTime"></span></div>
 			</div>
 			<progress class="w-100" :value="currentTimeBar" :max="currentTimeBarMax"></progress>
 		</div>

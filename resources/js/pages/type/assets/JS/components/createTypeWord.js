@@ -288,10 +288,7 @@ export class Map extends ParseLyrics{
 
 	setTotalTime(endTime){
 		const TIME = endTime/speed.value;
-		this.movieTimeMM = ("00" + parseInt(parseInt(TIME) / 60)).slice(-2)
-		this.movieTimeSS = ("00" +(parseInt(TIME) - TIME * 60)).slice(-2)
-		typeArea.currentTimeBarMax.value = TIME;
-		typeArea.durationTime.value = `${this.movieTimeMM}:${this.movieTimeSS}`;
+		typeArea.durationTime.value = TIME;
 		timer.currentTimeBarFrequency = TIME/1700 //1700 = 更新頻度の閾値
 	}
 
