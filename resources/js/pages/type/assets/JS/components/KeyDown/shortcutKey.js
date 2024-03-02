@@ -4,9 +4,9 @@ import { youtube, speed } from '@/templates/assets/JS/youtubeRef.js'
 import { ytState } from '@/pages/type/assets/JS/components/ytState.js';
 import { game } from '@/pages/type/assets/JS/consts/gameRef.js';
 
-class ShortcutHandler {
+export class ShortcutHandler {
 
-	static Start(event) {
+	static start(event) {
 
 		const iS_FOCUS_TEXTAREA = document.activeElement.type == "text" || document.activeElement.type == "textarea"
 

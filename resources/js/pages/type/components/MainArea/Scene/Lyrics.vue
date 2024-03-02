@@ -34,7 +34,7 @@ const nextTypeSpeed = computed(() => {
 	const SPEED = typeArea.nextTypeSpeed.value
 
 	if (SPEED > 0) {
-		return `NEXT:${typeArea.nextTypeSpeed.value.toFixed()}kpm`
+		return `NEXT: ${typeArea.nextTypeSpeed.value.toFixed()}kpm`
 	} else {
 		return ''
 	}

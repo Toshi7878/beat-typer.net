@@ -1,5 +1,6 @@
 import { map } from '@/pages/type/assets/JS/consts/refs.js';
 import { Map } from '@/pages/type/assets/JS/components/createTypeWord.js';
+import { ShortcutHandler } from '@/pages/type/assets/JS/components/KeyDown/shortcutKey.js';
 
 const ID = window.mapId;
 
@@ -17,7 +18,7 @@ headers: {
 	map.value = new Map(JSON.parse(data));
 
 	//Enterキーで開始ショートカットキー
-	window.addEventListener('keydown', ShortcutHandler.Start);
+	window.addEventListener('keydown', ShortcutHandler.start);
 })
 .catch(error => {
 	// Handle errors and log to the console
