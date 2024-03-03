@@ -13,9 +13,15 @@ class PlayerEvent {
 		Ticker.on("tick", timer.update.bind(timer))
 		Ticker.timingMode = Ticker.RAF;
 		ytState.state = YTState.LIST[event.data]
-		game.playState.value = 'play'
-		changeTab('ステータス')
-		typing.value = new Typing()
+		const gameState = game.playState.value
+
+		if(gameState == 'ready'){
+			game.playState.value = 'play'
+			changeTab('ステータス')
+			typing.value = new Typing()
+			game.initialize()
+		}
+
 	}
 
 	end(event) {

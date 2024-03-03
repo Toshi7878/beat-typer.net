@@ -1,5 +1,19 @@
 <script setup>
 import { status } from '@/pages/type/assets/JS/consts/statusRef.js';
+import { computed } from 'vue';
+
+const point = computed(() => { 
+
+const typePoint = status.value.point.type
+const timeBonus = status.value.point.timeBonus
+if(timeBonus){
+	return `${typePoint}+${timeBonus}`;
+}else{
+	return typePoint;
+}
+  
+})
+
 </script>
 
 <template>
@@ -26,7 +40,7 @@ import { status } from '@/pages/type/assets/JS/consts/statusRef.js';
 
 			<tr id="status_bottom" class="position-relative">
 				<td id='point'><span class="label">Point</span>
-					<span class="position-relative"><span id='point_value'>{{ status.point }}</span><span class="status-border-bottom"></span></span>
+					<span class="position-relative"><span id='point_value'>{{ point }}</span><span class="status-border-bottom"></span></span>
 				</td>
 
 				<td id='miss'><span class="label">Miss</span>

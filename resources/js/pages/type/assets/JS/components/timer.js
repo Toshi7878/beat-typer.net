@@ -1,7 +1,7 @@
 import {map} from '@/pages/type/assets/JS/consts/refs.js';
 import { typeArea } from '@/pages/type/assets/JS/consts/typeAreaRef.js';
 import { status } from '@/pages/type/assets/JS/consts/statusRef.js';
-import { result } from '@/pages/type/assets/JS/consts/resultRef.js';
+import { result, lineResult } from '@/pages/type/assets/JS/consts/resultRef.js';
 import { youtube, speed } from '@/templates/assets/JS/youtubeRef.js'
 import { typing } from '@/pages/type/assets/JS/components/KeyDown/typing.js';
 
@@ -12,10 +12,6 @@ class Render {
 	constructor(){
 		this.currentTimeBarFrequency = 0 //曲のトータル時間のprogressバーを更新する頻度。1700ぐらいが妥当。
 	}
-
-	// if(effect.isCountDown){
-	// 	effect.countDown()
-	// }
 
 	render(){
 		const LINE = map.value.data[line.count-1]
@@ -28,21 +24,14 @@ class Render {
 		if(Math.abs(this.constantTime - typeArea.value.lineRemainTime) >= 0.1){//ライン経過時間 ＆ 打鍵速度計算
 			const NEXT_LINE = map.value.data[line.count]
 			typeArea.value.lineRemainTime = (NEXT_LINE.time - this.currentTime)/speed.value; //ライン残り時間
-			// this.updateLineTime('updateTypeSpeed')
-
-			//const SKIP = this.skipedCount != line.count && !keyDown.nextChar[0] && lyrics_array[line.count][0] - this.headTime > 1 || retry.resetFlag
-				this.skipGuide()
+			this.skipGuide()
 
 			if(Math.abs(this.constantTime - typeArea.value.currentTime) >= 1){//曲の経過時間を[分:秒]で表示}
-				this.updateCurrentTime()
+				typeArea.value.currentTime = this.constantTime
 			}
 
 		}
 
-	}
-
-	updateCurrentTime(){
-		typeArea.value.currentTime = this.constantTime
 	}
 
 	skipGuide(){
@@ -52,13 +41,8 @@ class Render {
 		const KANA = typeArea.value.nextChar['k']
 		const SKIP_KEY = "Space";
 
-		//スキップ表示絶対条件
-		//const skipEnable = (typeArea.value.lineTimeBar.value >= SKIP_IN || typingCounter.completed) && typeArea.value.lineRemainTime.value >= SKIP_OUT || retry.resetFlag
 		const IS_SKIP_DISPLAY = !KANA && typeArea.value.lineTimeBar >= SKIP_IN && typeArea.value.lineRemainTime >= SKIP_OUT
 
-		// if(retry.resetFlag && (lyrics_array[parseLyric.startLine-1][0]-1<=tick.headTime)){
-		// 	retry.resetFlag = false;
-		// }
 
 		//スキップ表示絶対条件 && 既に表示されているか
 		if(IS_SKIP_DISPLAY){
@@ -136,8 +120,8 @@ class Line extends Next {
 	}
 
 	result(){
-		status.value.updateStatus(['Score'])
-	}
+		status.value.score += status.value.point.type;
+		status.value.point = {'type':0,'timeBonus':0}}
 
 	update(next){
 		this.setWord()

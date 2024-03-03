@@ -1,10 +1,13 @@
 import { typeArea } from '@/pages/type/assets/JS/consts/typeAreaRef.js';
 import { timer, line } from '@/pages/type/assets/JS/components/timer.js';
 import { status } from '@/pages/type/assets/JS/consts/statusRef.js';
+import { Type, Miss } from '@/pages/type/assets/JS/components/Typing/typeCalc.js';
+
 import _ from 'lodash';
 import { ref } from 'vue';
 import { game } from '@/pages/type/assets/JS/consts/gameRef.js';
 import { typingShortcut } from '@/pages/type/assets/JS/components/KeyDown/shortcutKey.js';
+import { lineResult } from '@/pages/type/assets/JS/consts/resultRef.js';
 
 const keyboardCharacters = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z", "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z", "~", "&", "%", "!", "?", "@", "#", "$", "(", ")", "|", "{", "}", "`", "*", "+", ":", ";", "_", "<", ">", "=", "^"]
 
@@ -32,7 +35,9 @@ class Event {
 
 }
 
-class KeyJudge extends Event {
+
+
+class KeyCalc extends Event {
 
 	constructor(){
 		super()
@@ -41,30 +46,24 @@ class KeyJudge extends Event {
 	hasRomaPattern(){
 		let romaPattern = typeArea.value.nextChar['r']
 		let kana = typeArea.value.nextChar['k']
-		const CHAR = this.char['keys'][0]
+		const CHAR = this.char['key'][0]
 
 
 		const IS_SUCCESS = _.some(romaPattern, pattern => pattern[0] === CHAR);
 
 		if(!IS_SUCCESS){
+			//←ミス
 			return false;
 		}
 
+		//↓↓↓正答↓↓↓
 
-		if(kana == 'ん'){
-			const romaWord = typeArea.value.romaWord
-            const isXN = ( CHAR == 'x' && romaWord[0] && (romaWord[0][0] != 'n' && romaWord[0][0] != 'N') )
-			if(isXN){
-                // xnで「ん」を打鍵する場合、次の文字から[nn, n']の打鍵パターンを除外する
-				line.typePattern[0]['r'] = line.typePattern[0]['r'].filter(function(value) { return value.match(/^(?!(n|')).*$/)})
-			}
-
-		}
+		this.romaPatternFilter(kana, CHAR, romaPattern)
 
 		//先頭の文字(現在入力してるモノ)を削除
 		for (let i=0; i<romaPattern.length; i++){
 
-				if(this.char['keys'][0] == romaPattern[i][0]){
+				if(this.char['key'][0] == romaPattern[i][0]){
 					romaPattern[i] = romaPattern[i].slice(1);
 					if(romaPattern[i].length == 0){
 						romaPattern.splice( i, 1 );
@@ -75,9 +74,42 @@ class KeyJudge extends Event {
 					romaPattern.splice( i, 1 );
 					i--
 				}
+		}
+
+		this.kanaFilter(kana, CHAR, romaPattern)
+		return true;
+	}
+
+	romaPatternFilter(kana, CHAR, romaPattern){
+
+		if(kana == 'ん'){
+			// xnで「ん」を打鍵する場合、次の文字から[nn, n']の打鍵パターンを除外する
+			this.nextNNFilter(CHAR)
+		}
+
+
+	}
+
+	kanaFilter(kana, CHAR, romaPattern){
+		if(kana.length >= 2 && romaPattern.length){
+
+			const IS_SOKUON_YOUON = kana[0] != 'っ' && (romaPattern[0][0] == 'x' || romaPattern[0][0] == 'l') || kana[0] == 'っ' && (CHAR == 'u' || romaPattern[0][0] == CHAR)
+
+			if(IS_SOKUON_YOUON){
+				this.updateSokuonYoon()
+			}
 
 		}
-		return true;
+	}
+
+	// xnで「ん」を打鍵する場合、次の文字から[nn, n']の打鍵パターンを除外する
+	nextNNFilter(CHAR){
+		const NEXT_TO_NEXT_CHAR = typeArea.value.romaWord[0]
+		const isXN = ( CHAR == 'x' && NEXT_TO_NEXT_CHAR && (NEXT_TO_NEXT_CHAR[0] != 'n' && NEXT_TO_NEXT_CHAR[0] != 'N') )
+	
+		if(isXN){
+			line.typePattern[0]['r'] = line.typePattern[0]['r'].filter(function(value) { return value.match(/^(?!(n|')).*$/)})
+		}
 	}
 
 	wordUpdate(chank){
@@ -90,15 +122,15 @@ class KeyJudge extends Event {
 		if(chank){
 			typeArea.value.kanaInputed += kana;
 			//スコア加算
-			status.value.point += POINT;
+			status.value.point.type += POINT;
 			typeArea.value.nextChar = this.add();
 		}
 
-		typeArea.value.romaInputed += this.char['keys'][0];
-
+		typeArea.value.romaInputed += this.char['key'][0];
 	}
 
 	add(){
+
 		if(line.typePattern.length){
 			const NEXT_CHAR = line.typePattern.shift(1)
 			NEXT_CHAR['point'] = 10 * NEXT_CHAR['r'][0].length
@@ -108,38 +140,68 @@ class KeyJudge extends Event {
 		}else{
 			return {'k':'','r':[],'point':0};
 		}
+
 	}
 
-	romaDistinguish(){
+	updateSokuonYoon(){
 		typeArea.value.kanaInputed += typeArea.value.nextChar['k'].slice( 0, 1 )
 		typeArea.value.nextChar['k'] = typeArea.value.nextChar['k'].slice(1)
 	}
 
 
 
+
+}
+
+
+class Judge extends KeyCalc {
+
+	constructor(){
+		super()
+	}
+
 	keyJudge(event){
 
 		const IS_SUCCESS = this.hasRomaPattern()
 
-		if(IS_SUCCESS){
+		if(IS_SUCCESS){ //正答
+			this.success()
+		}else { //ミス
 
-
-			const NEXT_CHAR = typeArea.value.nextChar
-			if(!NEXT_CHAR['r'].length){
-				this.wordUpdate('chank')
-			}else{
-				this.wordUpdate()
-			}
 		}
 
     }
-}
 
+	success(){
+		const NEXT_CHAR = typeArea.value.nextChar
+
+		if(!NEXT_CHAR['r'].length){
+			this.wordUpdate('chank')
+		}else{
+			this.wordUpdate()
+		}
+
+		const NEXT_POINT = typeArea.value.nextChar['point']
+
+		if(NEXT_POINT == 0){
+			Type.completed()
+		}
+
+		Type.add()
+
+		const KANA_MODE = game.inputMode != 'roma'
+		
+		this.char.key = this.char.key[0]
+		lineResult.typingResult.push({char:this.char, result:true, time:timer.currentTime, kanaMode:KANA_MODE});
+
+	}
+
+}
 
 const CODES = ["Space","Digit1","Digit2","Digit3","Digit4","Digit5","Digit6","Digit7","Digit8","Digit9","Digit0","Minus","Equal","IntlYen","BracketLeft","BracketRight","Semicolon","Quote","Backslash","Backquote","IntlBackslash","Comma","Period","Slash","IntlRo"]
 const TENKEYS = ["Numpad1","Numpad2","Numpad3","Numpad4","Numpad5","Numpad6","Numpad7","Numpad8","Numpad9","Numpad0","NumpadDivide","NumpadMultiply","NumpadSubtract","NumpadAdd","NumpadDecimal"]
 
-export class Typing extends KeyJudge {
+export class Typing extends Judge {
 
 	constructor(){
 		super()
@@ -189,9 +251,8 @@ export class Typing extends KeyJudge {
 
     makeInput(event){
 		const Input = {
-			keys:[(event.key).toLowerCase()],
-			code:event.code,
-			Shift:event.shiftKey
+			key:[(event.key).toLowerCase()],
+			shift:event.shiftKey
 		}
 
 		return Input;

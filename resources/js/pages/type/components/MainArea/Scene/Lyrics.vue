@@ -4,7 +4,7 @@ import { computed } from 'vue';
 import { typeArea } from '@/pages/type/assets/JS/consts/typeAreaRef.js';
 
 //Word
-const kanaInputed = computed(() => { return typeArea.value.kanaInputed.replace(/ /g,'ˍ') })
+const kanaInputed = computed(() => { return typeArea.value.kanaInputed.substr(-10,10).replace(/ /g,'ˍ') })
 const kanaNextChar = computed(() => { return typeArea.value.nextChar['k'] })
 const kanaWord = computed(() => {
 	const WORD = typeArea.value.kanaWord.join("");
@@ -15,7 +15,7 @@ const kanaWord = computed(() => {
 		return ''
 	}
 })
-const romaInputed = computed(() => { return typeArea.value.romaInputed.replace(/ /g,'ˍ') })
+const romaInputed = computed(() => { return typeArea.value.romaInputed.substr(-16,16).replace(/ /g,'ˍ') })
 const romaNextChar = computed(() => { return typeArea.value.nextChar['r'][0] })
 const romaWord = computed(() => {
 	const WORD = typeArea.value.romaWord.join("");
