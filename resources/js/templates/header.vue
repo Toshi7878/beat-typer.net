@@ -15,8 +15,8 @@ const { styles } = useFixedHeader(headerRef)
 </script>
 
 <template>
-	<header class="Header navbar navbar-expand-lg fixed-top navbar-dark" ref="headerRef" :style="styles">
-		<div class="container">
+	<header class="Header navbar navbar-expand fixed-top navbar-dark" ref="headerRef" :style="styles">
+		<div class="container" id="beattyper_page">
 			<h4 class="h4">
 				<a href="/" class="link-light link-underline link-underline-opacity-0 link-underline-opacity-75-hover">BeatTyper</a>
 			</h4>
@@ -46,6 +46,7 @@ const { styles } = useFixedHeader(headerRef)
 	top: 0;
 	/* Other styles... */
 	background: #375a7f;
+	height:40px;
 }
 
 .cursor-pointer {
