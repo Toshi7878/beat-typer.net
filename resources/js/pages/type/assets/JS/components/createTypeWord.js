@@ -288,7 +288,7 @@ export class Map extends ParseLyrics{
 
 	setTotalTime(endTime){
 		const TIME = endTime/speed.value;
-		typeArea.durationTime.value = TIME;
+		typeArea.value.durationTime = TIME;
 		timer.currentTimeBarFrequency = TIME/1700 //1700 = 更新頻度の閾値
 	}
 
@@ -338,7 +338,7 @@ export class Map extends ParseLyrics{
 				this.movieTotalTime = this.data[i].time
 				this.setTotalTime(this.movieTotalTime)
 
-				status.lineCount.value = this.lineLength
+				status.value.lineCount = this.lineLength
 				result.value = new Result(LINE_LEN);
 				// if(movieSpeedController.fixedSpeed){
 				// 	movieSpeedController.speed = movieSpeedController.fixedSpeed
@@ -371,8 +371,6 @@ export class Map extends ParseLyrics{
 	};
 
 }
-
-export let mapData;
 
 const ROMA_MAP = [
 	{"k": "0","r": ["0"]},

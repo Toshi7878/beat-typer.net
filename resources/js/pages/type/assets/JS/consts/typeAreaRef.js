@@ -4,7 +4,7 @@ export class TypeArea {
 	constructor(){
 		//Top
 		this.combo = ref(0)
-		this.notify = ref(`<font-awesome-icon icon="pause" />`)
+		this.notify = ref(``)
 		this.lineTypeSpeed = ref(0)
 		this.lineRemainTime = ref(0)
 		this.lineTimeBar = ref(0)
@@ -29,4 +29,4 @@ export class TypeArea {
 	}
 }
 
-export let typeArea = ref(new TypeArea())
+export const typeArea = ref(new TypeArea())

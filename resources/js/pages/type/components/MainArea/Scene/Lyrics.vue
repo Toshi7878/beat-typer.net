@@ -4,10 +4,10 @@ import { computed } from 'vue';
 import { typeArea } from '@/pages/type/assets/JS/consts/typeAreaRef.js';
 
 //Word
-const kanaInputed = computed(() => { return typeArea.kanaInputed.value })
-const kanaNextChar = computed(() => { return typeArea.nextChar.value['k'] })
+const kanaInputed = computed(() => { return typeArea.value.kanaInputed })
+const kanaNextChar = computed(() => { return typeArea.value.nextChar['k'] })
 const kanaWord = computed(() => {
-	const WORD = typeArea.kanaWord.value.join("");
+	const WORD = typeArea.value.kanaWord.join("");
 
 	if (WORD) {
 		return WORD
@@ -15,10 +15,10 @@ const kanaWord = computed(() => {
 		return ''
 	}
 })
-const romaInputed = computed(() => { return typeArea.romaInputed.value })
-const romaNextChar = computed(() => { return typeArea.nextChar.value['r'][0] })
+const romaInputed = computed(() => { return typeArea.value.romaInputed })
+const romaNextChar = computed(() => { return typeArea.value.nextChar['r'][0] })
 const romaWord = computed(() => {
-	const WORD = typeArea.romaWord.value.join("");
+	const WORD = typeArea.value.romaWord.join("");
 
 	if (WORD) {
 		return WORD
@@ -28,13 +28,13 @@ const romaWord = computed(() => {
 })
 
 //Lyrics
-const lyrics = computed(() => { return typeArea.lyrics.value })
-const nextLyrics = computed(() => { return typeArea.nextLyrics.value })
+const lyrics = computed(() => { return typeArea.value.lyrics })
+const nextLyrics = computed(() => { return typeArea.value.nextLyrics })
 const nextTypeSpeed = computed(() => {
-	const SPEED = typeArea.nextTypeSpeed.value
+	const SPEED = typeArea.value.nextTypeSpeed
 
 	if (SPEED > 0) {
-		return `NEXT: ${typeArea.nextTypeSpeed.value.toFixed()}kpm`
+		return `NEXT: ${typeArea.value.nextTypeSpeed.toFixed()}kpm`
 	} else {
 		return ''
 	}

@@ -39,7 +39,7 @@ class KeyJudge extends Event {
 	}
 
 	hasRomaPattern(){
-		let romaPattern = typeArea.nextChar.value['r']
+		let romaPattern = typeArea.value.nextChar['r']
 
 		const IS_SUCCESS = _.some(romaPattern, pattern => pattern[0] === this.char['keys'][0]);
 
@@ -70,18 +70,18 @@ class KeyJudge extends Event {
 	wordUpdate(chank){
 
 		//一チャンク打ち終わったら加点
-		let kana = typeArea.nextChar.value['k'];
-		let romaPattern = typeArea.nextChar.value['r'];
-		const POINT = typeArea.nextChar.value['point'];
+		let kana = typeArea.value.nextChar['k'];
+		let romaPattern = typeArea.value.nextChar['r'];
+		const POINT = typeArea.value.nextChar['point'];
 
 		if(chank){
-			typeArea.kanaInputed.value += kana;
+			typeArea.value.kanaInputed += kana;
 			//スコア加算
-			status.point.value += POINT;
-			typeArea.nextChar.value = this.add();
+			status.value.point += POINT;
+			typeArea.value.nextChar = this.add();
 		}
 
-		typeArea.romaInputed.value += this.char['keys'][0];
+		typeArea.value.romaInputed += this.char['keys'][0];
 
 	}
 
@@ -89,8 +89,8 @@ class KeyJudge extends Event {
 		if(line.typePattern.length){
 			const NEXT_CHAR = line.typePattern.shift(1)
 			NEXT_CHAR['point'] = 10 * NEXT_CHAR['r'][0].length
-			typeArea.kanaWord.value.shift(1)
-			typeArea.romaWord.value.shift(1)
+			typeArea.value.kanaWord.shift(1)
+			typeArea.value.romaWord.shift(1)
 			return NEXT_CHAR;
 		}else{
 			return {'k':'','r':[],'point':0};
@@ -98,8 +98,8 @@ class KeyJudge extends Event {
 	}
 
 	romaDistinguish(){
-		typeArea.kanaInputed.value += typeArea.nextChar.value['k'].slice( 0, 1 )
-		typeArea.nextChar.value['k'] = typeArea.nextChar.value['k'].slice(1)
+		typeArea.value.kanaInputed += typeArea.value.nextChar['k'].slice( 0, 1 )
+		typeArea.value.nextChar['k'] = typeArea.value.nextChar['k'].slice(1)
 	}
 
 
@@ -111,7 +111,7 @@ class KeyJudge extends Event {
 		if(IS_SUCCESS){
 
 
-			const NEXT_CHAR = typeArea.nextChar.value
+			const NEXT_CHAR = typeArea.value.nextChar
 			if(!NEXT_CHAR['r'].length){
 				this.wordUpdate('chank')
 			}else{
@@ -156,7 +156,7 @@ export class Typing extends KeyJudge {
 		const IS_TYPED = this.isTyped(event)
 		const HAS_FOCUS = document.activeElement.type != "text"
 
-		let kana = typeArea.nextChar.value['k']
+		let kana = typeArea.value.nextChar['k']
 
         if(HAS_FOCUS && IS_TYPED && kana){
 

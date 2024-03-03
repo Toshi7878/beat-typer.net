@@ -27,7 +27,7 @@ class Game {
 		//     document.getElementById("tap_here").style.display = "none"
 		// }
 
-		typeArea.skip.value = ''
+		typeArea.value.skip = ''
 		//gameStart.duringPlayAccessElements['skip-guide'].textContent = "";
 		//tick.playheadUpdate();
 	}

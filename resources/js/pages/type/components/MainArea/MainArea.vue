@@ -8,17 +8,19 @@ import { game } from '@/pages/type/assets/JS/consts/gameRef.js';
 
 
 //Top
-const lineTimeBar = computed(() => { return typeArea.lineTimeBar.value })
-const lineTimeBarMax = computed(() => { return typeArea.lineTimeBarMax.value })
-const lineRemainTime = computed(() => { return typeArea.lineRemainTime.value.toFixed(1) })
+const lineTimeBar = computed(() => { return typeArea.value.lineTimeBar })
+const lineTimeBarMax = computed(() => { return typeArea.value.lineTimeBarMax })
+const lineRemainTime = computed(() => { return typeArea.value.lineRemainTime.toFixed(1) })
+const combo = computed(() => { return typeArea.value.combo })
+const lineTypeSpeed = computed(() => { return typeArea.value.lineTypeSpeed })
 
 //Bottom
-const currentTimeBar = computed(() => { return typeArea.currentTimeBar.value })
-const currentTimeBarMax = computed(() => { return typeArea.durationTime.value })
+const currentTimeBar = computed(() => { return typeArea.value.currentTimeBar })
+const currentTimeBarMax = computed(() => { return typeArea.value.durationTime })
 const skip = computed(() => { 
 
-	const SKIP_KEY = typeArea.skip.value
-	
+	const SKIP_KEY = typeArea.value.skip
+
 	if(SKIP_KEY){
 		return `Type ${SKIP_KEY} key to Skip. ⏩`;
 	}else{
@@ -28,7 +30,7 @@ const skip = computed(() => {
 })
 
 const currentTime = computed(() => {
-	const TIME = typeArea.currentTime.value
+	const TIME = typeArea.value.currentTime
 	const MM = ("00" + parseInt(TIME / 60)).slice(-2)
 	const SS = ("00" + parseInt(TIME % 60)).slice(-2)
 
@@ -36,7 +38,7 @@ const currentTime = computed(() => {
 })
 
 const durationTime = computed(() => {
-	const TIME = typeArea.durationTime.value
+	const TIME = typeArea.value.durationTime
 	const MM = ("00" + parseInt(TIME / 60)).slice(-2)
 	const SS = ("00" + parseInt(TIME % 60)).slice(-2)
 
@@ -48,10 +50,10 @@ const durationTime = computed(() => {
 	<div class="w-100 pt-3 pb-4 shadow bg-body-tertiary rounded fw-bold">
 		<div id="top_area">
 			<div id="top_notify" :class="{'invisible': game.playState.value != 'play'}" class="mx-2 d-flex justify-content-between font-monospace">
-				<div id="combo_notify" class="fs-4 position-relative">{{ typeArea.combo }}</div>
-				<div id="effect_notify" class="position-absolute fs-4" v-html="typeArea.notify.value"></div>
+				<div id="combo_notify" class="fs-4 position-relative">{{ combo }}</div>
+				<div id="effect_notify" class="position-absolute fs-4"></div>
 				<div id="line_time_notify" class="position-relative fs-5">
-					<span><span id="line_type_speed_value">{{ typeArea.lineTypeSpeed }}</span>kpm</span> - 残り<span id="line_remain_time">{{ lineRemainTime }}</span>秒
+					<span><span id="line_type_speed_value">{{ lineTypeSpeed }}</span>kpm</span> - 残り<span id="line_remain_time">{{ lineRemainTime }}</span>秒
 				</div>
 			</div>
 			<progress class="w-100" :value="lineTimeBar" :max="lineTimeBarMax" :class="{'invisible': game.playState.value == 'end'}"></progress>

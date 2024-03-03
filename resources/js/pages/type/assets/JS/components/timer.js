@@ -11,7 +11,6 @@ class Render {
 
 	constructor(){
 		this.currentTimeBarFrequency = 0 //曲のトータル時間のprogressバーを更新する頻度。1700ぐらいが妥当。
-		this.skipedCount = 0
 	}
 
 	// if(effect.isCountDown){
@@ -20,25 +19,21 @@ class Render {
 
 	render(){
 		const LINE = map.value.data[line.count-1]
-		typeArea.lineTimeBar.value = this.currentTime - LINE.time
+		typeArea.value.lineTimeBar = this.currentTime - LINE.time
 
-		if(Math.abs(this.constantTime - typeArea.currentTimeBar.value) >= this.currentTimeBarFrequency){//ライン経過時間 ＆ 打鍵速度計算
-			typeArea.currentTimeBar.value = this.currentTime;
+		if(Math.abs(this.constantTime - typeArea.value.currentTimeBar) >= this.currentTimeBarFrequency){//ライン経過時間 ＆ 打鍵速度計算
+			typeArea.value.currentTimeBar = this.currentTime;
 		}
 
-		if(Math.abs(this.constantTime - typeArea.lineRemainTime.value) >= 0.1){//ライン経過時間 ＆ 打鍵速度計算
+		if(Math.abs(this.constantTime - typeArea.value.lineRemainTime) >= 0.1){//ライン経過時間 ＆ 打鍵速度計算
 			const NEXT_LINE = map.value.data[line.count]
-			typeArea.lineRemainTime.value = (NEXT_LINE.time - this.currentTime)/speed.value; //ライン残り時間
+			typeArea.value.lineRemainTime = (NEXT_LINE.time - this.currentTime)/speed.value; //ライン残り時間
 			// this.updateLineTime('updateTypeSpeed')
 
 			//const SKIP = this.skipedCount != line.count && !keyDown.nextChar[0] && lyrics_array[line.count][0] - this.headTime > 1 || retry.resetFlag
-			const SKIP = this.skipedCount != line.count
-
-			if(SKIP){
 				this.skipGuide()
-			}
 
-			if(Math.abs(this.constantTime - typeArea.currentTime.value) >= 1){//曲の経過時間を[分:秒]で表示}
+			if(Math.abs(this.constantTime - typeArea.value.currentTime) >= 1){//曲の経過時間を[分:秒]で表示}
 				this.updateCurrentTime()
 			}
 
@@ -47,7 +42,7 @@ class Render {
 	}
 
 	updateCurrentTime(){
-		typeArea.currentTime.value = this.constantTime
+		typeArea.value.currentTime = this.constantTime
 	}
 
 	skipGuide(){
@@ -62,8 +57,8 @@ class Render {
 		// }
 
 		//スキップ表示絶対条件
-		//const skipEnable = (typeArea.lineTimeBar.value >= SKIP_IN || typingCounter.completed) && typeArea.lineRemainTime.value >= SKIP_OUT || retry.resetFlag
-		const IS_SKIP_DISPLAY = typeArea.lineTimeBar.value >= SKIP_IN && typeArea.lineRemainTime.value >= SKIP_OUT
+		//const skipEnable = (typeArea.value.lineTimeBar.value >= SKIP_IN || typingCounter.completed) && typeArea.value.lineRemainTime.value >= SKIP_OUT || retry.resetFlag
+		const IS_SKIP_DISPLAY = typeArea.value.lineTimeBar >= SKIP_IN && typeArea.value.lineRemainTime >= SKIP_OUT
 
 		// if(retry.resetFlag && (lyrics_array[parseLyric.startLine-1][0]-1<=tick.headTime)){
 		// 	retry.resetFlag = false;
@@ -72,12 +67,12 @@ class Render {
 		//スキップ表示絶対条件 && 既に表示されているか
 		if(IS_SKIP_DISPLAY){
 
-			if(!typeArea.skip.value){
-				typeArea.skip.value = SKIP_KEY;
+			if(!typeArea.value.skip){
+				typeArea.value.skip = SKIP_KEY;
 			}
 
-		}else if(typeArea.skip.value){
-			typeArea.skip.value = ''
+		}else if(typeArea.value.skip){
+			typeArea.value.skip = ''
 		}
 
 	}
@@ -113,24 +108,24 @@ export const timer = new Timer()
 class Next {
 	setWord(){
 		this.typePattern = _.cloneDeep(map.value.typePattern[this.count]);
-		typeArea.kanaWord.value = _.cloneDeep(map.value.lineWords[this.count]['k']);
-		typeArea.romaWord.value = _.cloneDeep(map.value.lineWords[this.count]['r']);
+		typeArea.value.kanaWord = _.cloneDeep(map.value.lineWords[this.count]['k']);
+		typeArea.value.romaWord = _.cloneDeep(map.value.lineWords[this.count]['r']);
 
-		typeArea.romaInputed.value = ''
-		typeArea.kanaInputed.value = ''
+		typeArea.value.romaInputed = ''
+		typeArea.value.kanaInputed = ''
 
-		typeArea.nextChar.value = typing.value.add()
+		typeArea.value.nextChar = typing.value.add()
 	}
 
 	setLyrics(next){
-		typeArea.lyrics.value = next.lyrics
+		typeArea.value.lyrics = next.lyrics
 	}
 
 	setNextToNextLyrics(next){
 		const NEXT_TO_NEXT = map.value.data[line.count]
-		typeArea.lineTimeBarMax.value = NEXT_TO_NEXT.time - next.time
-		typeArea.nextLyrics.value = NEXT_TO_NEXT.lyrics
-		typeArea.nextTypeSpeed.value = (map.value.romaLineSpeedList[this.count]*60)*speed.value
+		typeArea.value.lineTimeBarMax = NEXT_TO_NEXT.time - next.time
+		typeArea.value.nextLyrics = NEXT_TO_NEXT.lyrics
+		typeArea.value.nextTypeSpeed = (map.value.romaLineSpeedList[this.count]*60)*speed.value
 	}
 }
 
@@ -154,10 +149,11 @@ class Line extends Next {
 	}
 
 	getLineCount(time){
+		const MAP = map.value.data
 
-        for(let i=0;i<lineData.value.length;i++){
+        for(let i=0;i<MAP.length;i++){
 
-            if(lineData.value[i]['time'] - time >= 0){
+            if(MAP[i]['time'] - time >= 0){
                 this.count = i
                 break;
             }

@@ -29,7 +29,7 @@ class PlayerEvent {
 	}
 
 	seek(event) {
-		//line.getLineCount(event.target.getCurrentTime())
+		line.getLineCount(event.target.getCurrentTime())
 	}
 
 	ready() {

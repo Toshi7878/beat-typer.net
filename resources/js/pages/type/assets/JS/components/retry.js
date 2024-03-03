@@ -1,5 +1,7 @@
 import { TypeArea, typeArea } from '@/pages/type/assets/JS/consts/typeAreaRef.js';
 import { Status, status } from '@/pages/type/assets/JS/consts/statusRef.js';
+import { youtube } from '@/templates/assets/JS/youtubeRef.js'
+import {map} from '@/pages/type/assets/JS/consts/refs.js';
 
 
 let retry
@@ -10,12 +12,14 @@ export class Retry {
 		this.resetFlag = false
 	}
 
-	static reset(){
+	static reset(event){
 		this.resetFlag = true
 
-		typeArea = new TypeArea()
-		status = new Status()
-		player.seekTo(0);
+		typeArea.value = new TypeArea()
+		status.value = new Status()
+		map.value.setTotalTime(map.value.movieTotalTime)
+		youtube.value.seekTo(0);
+
 		event.preventDefault()
 	}
 

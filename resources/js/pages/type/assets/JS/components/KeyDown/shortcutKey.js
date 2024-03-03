@@ -379,7 +379,7 @@ class TypingShortcut extends Handler {
 
 			case "F4": //F4でやり直し
 
-				Retry.reset()
+				Retry.reset(event)
 				event.preventDefault();
 				break;
 
@@ -436,8 +436,8 @@ class TypingShortcut extends Handler {
 		}
 
 		//間奏スキップ
-		if(event.code == typeArea.skip.value){
-			game.skip()
+		if(event.code == typeArea.value.skip){
+			game.skip(event)
 			event.preventDefault();
 		}
 
