@@ -1,5 +1,4 @@
 import { ref } from 'vue';
-import { status } from '@/pages/type/assets/JS/consts/statusRef.js';
 import { typeArea } from '@/pages/type/assets/JS/consts/typeAreaRef.js';
 import { timer } from '@/pages/type/assets/JS/components/timer.js';
 

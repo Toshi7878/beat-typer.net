@@ -23,8 +23,9 @@ class Game {
 	initialize(){
 		typeArea.value = new TypeArea()
 		status.value = new Status()
-		result.value = new Result()
+		result.value = new Result(map.value.lineLength)
 		lineResult.value = new LineResult()
+		map.value.setTotalTime(map.value.movieTotalTime)
 	}
 }
 

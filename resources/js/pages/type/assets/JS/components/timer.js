@@ -120,7 +120,7 @@ class Line extends Next {
 	}
 
 	result(){
-		status.value.score += status.value.point.type;
+		status.value.score += status.value.point.type + status.value.point.timeBonus;
 		status.value.point = {'type':0,'timeBonus':0}}
 
 	update(next){

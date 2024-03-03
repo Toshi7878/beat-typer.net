@@ -192,7 +192,7 @@ class Judge extends KeyCalc {
 		const KANA_MODE = game.inputMode != 'roma'
 		
 		this.char.key = this.char.key[0]
-		lineResult.typingResult.push({char:this.char, result:true, time:timer.currentTime, kanaMode:KANA_MODE});
+		lineResult.value.typingResult.push({char:this.char, result:true, time:timer.currentTime, kanaMode:KANA_MODE});
 
 	}
 

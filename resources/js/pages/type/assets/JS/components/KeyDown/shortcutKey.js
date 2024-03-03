@@ -3,7 +3,7 @@ import { youtube, speed } from '@/templates/assets/JS/youtubeRef.js'
 import { ytState } from '@/pages/type/assets/JS/components/ytState.js';
 import { game } from '@/pages/type/assets/JS/consts/gameRef.js';
 import { typeArea } from '@/pages/type/assets/JS/consts/typeAreaRef.js';
-import { Retry } from '@/pages/type/assets/JS/components/retry.js';
+import { retry } from '@/pages/type/assets/JS/components/retry.js';
 
 export class ShortcutHandler {
 
@@ -379,7 +379,7 @@ class TypingShortcut extends Handler {
 
 			case "F4": //F4でやり直し
 
-				Retry.reset(event)
+				retry.value.reset(event)
 				event.preventDefault();
 				break;
 

@@ -13,7 +13,6 @@ class Retry {
 
 	reset(event){
 		game.initialize()
-		map.value.setTotalTime(map.value.movieTotalTime)
 		youtube.value.seekTo(0);
 
 		event.preventDefault()

@@ -1,7 +1,10 @@
 import { status } from '@/pages/type/assets/JS/consts/statusRef.js';
-import {result, lineResult } from '@/pages/type/assets/JS/consts/resultRef.js';
+import { result, lineResult } from '@/pages/type/assets/JS/consts/resultRef.js';
 import { timer, line } from '@/pages/type/assets/JS/components/timer.js';
 import {map} from '@/pages/type/assets/JS/consts/refs.js';
+import { typeArea } from '@/pages/type/assets/JS/consts/typeAreaRef.js';
+import { game } from '@/pages/type/assets/JS/consts/gameRef.js';
+import { speed } from '@/templates/assets/JS/youtubeRef.js'
 
 export class Type {
 
@@ -22,17 +25,11 @@ export class Type {
 			result.maxCombo = typeArea.value.combo;
 		}
 
-		tick.updateTypingSpeed()
 	}
 
 	static completed(){	
 			const NEXT_LINE = map.value.data[line.count]
-			status.point.timeBonus = Math.round(( (NEXT_LINE.time - timer.currentTime) / speed.value )* 100)
-	
-			for(let i=0;i<gameStart.duringPlayAccessElements['correct-input'].length;i++){
-				gameStart.duringPlayAccessElements['correct-input'][i].style.color = optionDb.duringPlayOptions['line-clear-color']
-			}
-	
+			status.value.point.timeBonus = Math.round(( (NEXT_LINE.time - timer.currentTime) / speed.value )* 100)
 		}
 	}
 
