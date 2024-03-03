@@ -49,16 +49,12 @@ class Render {
 
 		const SKIP_IN = 0.4 //ラインが切り替わり後、指定のtimeが経過したら表示
 		const SKIP_OUT = 4 //ラインの残り時間が指定のtimeを切ったら非表示
-
-		// if(optionDb.duringPlayOptions['skip-guide-key'] === 'skip-guide-enter-key'){
-		// 	this.skipCode = "Enter";
-		// }else{
-			const SKIP_KEY = "Space";
-		// }
+		const KANA = typeArea.value.nextChar['k']
+		const SKIP_KEY = "Space";
 
 		//スキップ表示絶対条件
 		//const skipEnable = (typeArea.value.lineTimeBar.value >= SKIP_IN || typingCounter.completed) && typeArea.value.lineRemainTime.value >= SKIP_OUT || retry.resetFlag
-		const IS_SKIP_DISPLAY = typeArea.value.lineTimeBar >= SKIP_IN && typeArea.value.lineRemainTime >= SKIP_OUT
+		const IS_SKIP_DISPLAY = !KANA && typeArea.value.lineTimeBar >= SKIP_IN && typeArea.value.lineRemainTime >= SKIP_OUT
 
 		// if(retry.resetFlag && (lyrics_array[parseLyric.startLine-1][0]-1<=tick.headTime)){
 		// 	retry.resetFlag = false;
@@ -96,6 +92,7 @@ class Timer extends Render {
 		const IS_LINE_UPDATE = (NEXT_LINE && this.currentTime > +NEXT_LINE.time)
 
 		if(IS_LINE_UPDATE){
+			line.result()
 			line.update(NEXT_LINE)
 		}
 
@@ -138,6 +135,10 @@ class Line extends Next {
 		this.typePattern = []
 	}
 
+	result(){
+		status.value.updateStatus(['Score'])
+	}
+
 	update(next){
 		this.setWord()
 
@@ -146,6 +147,7 @@ class Line extends Next {
 		this.count++
 
 		this.setNextToNextLyrics(next)
+
 	}
 
 	getLineCount(time){

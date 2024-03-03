@@ -40,13 +40,26 @@ class KeyJudge extends Event {
 
 	hasRomaPattern(){
 		let romaPattern = typeArea.value.nextChar['r']
+		let kana = typeArea.value.nextChar['k']
+		const CHAR = this.char['keys'][0]
 
-		const IS_SUCCESS = _.some(romaPattern, pattern => pattern[0] === this.char['keys'][0]);
+
+		const IS_SUCCESS = _.some(romaPattern, pattern => pattern[0] === CHAR);
 
 		if(!IS_SUCCESS){
 			return false;
 		}
 
+
+		if(kana == 'ん'){
+			const romaWord = typeArea.value.romaWord
+            const isXN = ( CHAR == 'x' && romaWord[0] && (romaWord[0][0] != 'n' && romaWord[0][0] != 'N') )
+			if(isXN){
+                // xnで「ん」を打鍵する場合、次の文字から[nn, n']の打鍵パターンを除外する
+				line.typePattern[0]['r'] = line.typePattern[0]['r'].filter(function(value) { return value.match(/^(?!(n|')).*$/)})
+			}
+
+		}
 
 		//先頭の文字(現在入力してるモノ)を削除
 		for (let i=0; i<romaPattern.length; i++){

@@ -185,6 +185,7 @@ class ParseLyrics{
 			
 					if(IS_N){
 						this.lineWord[this.lineWord.length-2]['r'][i] = this.lineWord[this.lineWord.length-2]['r'][i]+"n"
+						this.lineWord[this.lineWord.length-2]['r'].push("n'")
 					}
 
 				}
@@ -550,7 +551,7 @@ const ROMA_MAP = [
 	{"k": "ろ","r": ["ro"]},
 	{"k": "わ","r": ["wa"]},
 	{"k": "を","r": ["wo"]},
-	{"k": "ん","r": ["n","xn","n'"]},
+	{"k": "ん","r": ["n","xn"]},
 	{"k": "ゔ","r": ["vu"]},
 	{"k": "が","r": ["ga"]},
 	{"k": "ぎ","r": ["gi"]},

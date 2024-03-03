@@ -6,6 +6,7 @@ import { youtube, volume } from '@/templates/assets/JS/youtubeRef.js'
 import { tabRef, changeTab } from '@/pages/type/assets/JS/consts/tabRef.js';
 import { Typing, typing } from '@/pages/type/assets/JS/components/KeyDown/typing.js';
 
+
 class PlayerEvent {
 
 	play(event) {
