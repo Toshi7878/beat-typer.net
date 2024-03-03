@@ -1,14 +1,15 @@
 import { map } from '@/pages/type/assets/JS/consts/refs.js';
 import { youtube, speed } from '@/templates/assets/JS/youtubeRef.js'
-
 import { ytState } from '@/pages/type/assets/JS/components/ytState.js';
 import { game } from '@/pages/type/assets/JS/consts/gameRef.js';
+import { typeArea } from '@/pages/type/assets/JS/consts/typeAreaRef.js';
+import { Retry } from '@/pages/type/assets/JS/components/retry.js';
 
 export class ShortcutHandler {
 
 	static start(event) {
 
-		const iS_FOCUS_TEXTAREA = document.activeElement.type == "text" || document.activeElement.type == "textarea"
+		const iS_FOCUS_TEXTAREA = document.activeElement.type == "text"
 
 			if(!iS_FOCUS_TEXTAREA){
 
@@ -32,16 +33,16 @@ export class ShortcutHandler {
 
 		}
 
-	static unPauseShortcut(){
+	static unPauseShortcut(event){
 
-		if(event.key == "Escape" && !player_demo){//Escでポーズ解除
-			player.playVideo()
+		if(event.key == "Escape"){//Escでポーズ解除
+			youtube.value.playVideo()
 			event.preventDefault();
 		}
 
 	}
 
-	static disableSpaceKey(){
+	static disableSpaceKey(event){
 
 		if(event.code == "Space") {
 			event.preventDefault();
@@ -64,16 +65,16 @@ export class ShortcutHandler {
 
 	}
 
-	static enterKeyForScoreSubmission(){
+	// static enterKeyForScoreSubmission(event){
 
-		if((document.activeElement.tagName != "INPUT" || document.activeElement.type == "radio") && event.key == "Enter"){
+	// 	if((document.activeElement.tagName != "INPUT" || document.activeElement.type == "radio") && event.key == "Enter"){
 
-			if(finished && play_mode=="normal" && document.querySelector('[onclick="submit_score()"]') != null){//曲終了、Enterキーで記録送信
-				submit_score()
-			}
+	// 		if(finished && play_mode=="normal" && document.querySelector('[onclick="submit_score()"]') != null){//曲終了、Enterキーで記録送信
+	// 			submit_score()
+	// 		}
 
-		}
-	}
+	// 	}
+	// }
 
 	static finishedRetryMovie(event){
 		const RETRY_TRIGGER = (event.type == "click" && (/btn_replay/.test(event.target.src) || event.target.id == 'movie_cover') || event.key=="F4")
@@ -101,131 +102,358 @@ export class ShortcutHandler {
 	}
 }
 
-class KeyHandler {
+class Handler {
+
+	static changeVolume(diff){
+		volume = youtube.value.getVolume();
+		volume += diff;
+
+		if(volume < 0) {
+			volume = 0;
+		}else if(volume > 100) {
+			volume = 100;
+		}
+
+		youtube.value.setVolume(volume);
+		localStorage.setItem('volume_storage', volume);
+		document.getElementById("volume").textContent = volume;
+		document.getElementById("volume_control").value = volume
+
+		effect.viewState("音量: "+volume+"%")
+	}
+
+	static changeDiffTime(diff){
+		optionDb.duringPlayOptions['initial-time-diff'] += diff
+
+		if(optionDb.duringPlayOptions['initial-time-diff'] < -4.0){
+			optionDb.duringPlayOptions['initial-time-diff'] = -4.0;
+		}else if(optionDb.duringPlayOptions['initial-time-diff'] > 4.0){
+			optionDb.duringPlayOptions['initial-time-diff'] = 4.0;
+		}
+
+		optionDb.duringPlayOptions['initial-time-diff'] = Math.round(optionDb.duringPlayOptions['initial-time-diff'] * 100)/100
+		document.getElementById("time_diff").textContent = optionDb.duringPlayOptions['initial-time-diff'].toFixed(2);
+		effect.viewState(`時間調整　`+optionDb.duringPlayOptions['initial-time-diff'].toFixed(2))
+	}
+
+	static arrowLeftPracticeMode(){
+		let n = practiceMode.setLineCount != line.count ? -1 : 0
+		let clone
+
+		while ( document.querySelector('[number="'+(line.count+n)+'"]') == null && (line.count+n) >= parseLyric.startLine) {n--;}
+
+		if(line.count < parseLyric.startLine){return;}
+
+		if(line.count > parseLyric.startLine){
+			const jumpNumber = document.querySelector('[number="'+(line.count+n)+'"]')
+			practiceMode.setSeekTime = jumpNumber.getAttribute('value')-1
+			practiceMode.setLineCount = Number(jumpNumber.getAttribute('number'))-1
+			clone = jumpNumber.cloneNode(true)
+		}else{
+			const FirstLine = document.querySelector("#line-list [number]")
+			practiceMode.setSeekTime = FirstLine.getAttribute('value')-1
+			practiceMode.setLineCount = Number(FirstLine.getAttribute('number')) - (parseLyric.startLine-1?1:0)
+			clone = FirstLine.cloneNode(true)
+		}
+
+		createjs.Ticker.removeAllEventListeners('tick');
+		effect.viewState("◁")
+		practiceMode.setSeekLine(clone)
+		line.updateLineView()
+		Seek.getLyricsCount(practiceMode.setSeekTime, 0)
+		practiceMode.seekLine(lyrics_array[line.count+1][0]-1)
+	}
+
+	static arrowRightPracticeMode(){
+		let n = practiceMode.setLineCount != line.count ? 1 : 2
+
+		if(line.count - practiceMode.setLineCount > 1){
+			n--
+		}
+
+		if(practiceMode.setLineCount > 0 && (line.count+1) - practiceMode.setLineCount <= 1 && lyrics_array[practiceMode.setLineCount+1][0] - lyrics_array[practiceMode.setLineCount][0] <= 1){
+			n += 2
+		}
+
+		while ( document.querySelector('[number="'+(line.count+n)+'"]') == null && lyrics_array.length-1 > (line.count+n)) {n++;}
+		if(lyrics_array.length-2 < (line.count+n)){return;}
+		let clone
+		const jumpNumber = document.querySelector('[number="'+(line.count+n)+'"]')
+		practiceMode.setSeekTime = jumpNumber.getAttribute('value')-1
+		practiceMode.setLineCount = Number(jumpNumber.getAttribute('number'))-1
+		clone = document.querySelector('[number="'+(practiceMode.setLineCount+1)+'"]').cloneNode(true)
 
 
+        createjs.Ticker.removeAllEventListeners('tick');
+		effect.viewState("▷")
+		practiceMode.setSeekLine(clone)
+		Seek.getLyricsCount(practiceMode.setSeekTime , practiceMode.setLineCount == line.count-1 ? "":-1)
+		practiceMode.seekLine(lyrics_array[line.count+1][0]-1)
+	}
+
+	static changeInputMode(){
+
+		if(inputMode.kanaMode){
+			inputMode.kanaMode = false
+
+			modHtml.kanaModeConfig.style.display = "none"
+
+			if(keyDown.nextChar[0]){
+
+				if(optionDb.duringPlayOptions['dakuten-handakuten-split-mode']){
+					line.lineInputKana = daku_handaku_join(true,false,line.lineInputKana)
+				}else if(keyDown.nextChar[0] == "゜" || keyDown.nextChar[0] == "゛"){
+					keyDown.nextChar[0] = keyDown.nextChar[keyDown.nextChar.length-1]
+				}
+
+				if(!keyDown.sokuonChain){
+
+					for (let i=0; i<romaMap.length; i++){
+
+						if(keyDown.nextChar[0] == romaMap[i][0]){
+							keyDown.nextChar = [romaMap[i][0],...romaMap[i].slice(1)]
+						}
+
+					}
+
+				}else{
+					continuous_xtu_adjust()
+				}
+
+			}
+            gameStart.updateTypingWordAreaStyles()
+			effect.viewState("Romaji")
+		}else{
+
+			inputMode.kanaMode = true
+			modHtml.kanaModeConfig.style.display = "block"
+
+			const next_char_convert_target = kana_mode_convert_rule_before.indexOf(keyDown.nextChar[0])
+
+			if(next_char_convert_target >= 0){
+				keyDown.nextChar[0] = kana_mode_convert_rule_after[next_char_convert_target]
+			}
+
+			if(/←|↓|↑|→|『|』/.test(line.lineInputKana.join(""))){
+
+				for(h=0;h<line.lineInputKana.length;h++){
+					const convert_target = kana_mode_convert_rule_before.indexOf(line.lineInputKana[h])
+
+					if(convert_target >= 0){
+						line.lineInputKana[h] = kana_mode_convert_rule_after[convert_target]
+					}
+
+				}
+
+			}
+
+			if(keyDown.nextChar[0] && optionDb.duringPlayOptions['dakuten-handakuten-split-mode']){
+				line.lineInputKana = daku_handaku_join(true,false,line.lineInputKana)
+			}
+
+            gameStart.updateTypingWordAreaStyles('KanaMode')
+			effect.viewState("KanaMode")
+		}
+
+		line.updateLineView()
+
+		//lineクリア色変更はupdateLineViewで行うと練習モードで誤作動を起こす。
+		if(typingCounter.completed){
+			typingCounter.lineComplete()
+		}
+
+		line.renderLyric(line.count-1)
+		mapInfoDisplay.updateMapInfo()
+
+		if(RTC_Switch){
+			var updates = {};
+
+			if(inputMode.kanaMode){
+				updates['users/' + myID + '/status/InputMode'] = "かな";
+			}else{
+				updates['users/' + myID + '/status/InputMode'] = "ローマ字";
+			}
+
+			firebase.database().ref().update(updates);
+		}
+	}
+
+    static daku_handaku_join(next_char_flag,Calculation,join_word){
+        let tagstr1 = {
+            "ゔ": "う゛","が": "か゛", "ぎ": "き゛", "ぐ": "く゛", "げ": "け゛", "ご": "こ゛",
+            "ざ": "さ゛", "じ": "し゛", "ず": "す゛", "ぜ": "せ゛", "ぞ": "そ゛",
+            "だ": "た゛", "ぢ": "ち゛", "づ": "つ゛", "で": "て゛", "ど": "と゛",
+            "ば": "は゛", "び": "ひ゛", "ぶ": "ふ゛", "べ": "へ゛", "ぼ": "ほ゛",
+            "ぱ": "は゜", "ぴ": "ひ゜", "ぷ": "ふ゜", "ぺ": "へ゜", "ぽ": "ほ゜",
+        };
+        let tagstr2 = {}; Object.keys(tagstr1).map(function (v, index, array) { return tagstr2[tagstr1[v]] = v }); // keyとvalueを逆にする
+        let s1 = "ゔ|が|ぎ|ぐ|げ|ご|ざ|じ|ず|ぜ|ぞ|だ|ぢ|づ|で|ど|ば|び|ぶ|べ|ぼ|ぱ|ぴ|ぷ|ぺ|ぽ";
+        let s2 = "う゛|か゛|き゛|く゛|け゛|こ゛|さ゛|し゛|す゛|せ゛|そ゛|た゛|ち゛|つ゛|て゛|と゛|は゛|ひ゛|ふ゛|へ゛|ほ゛|は゜|ひ゜|ふ゜|へ゜|ほ゜";
+        let reg, replacer;
+
+        if((!inputMode.kanaMode || !optionDb.duringPlayOptions['dakuten-handakuten-split-mode']) && !Calculation){
+
+            function replacer2(match, index, input) { // 「か゛」 → 「が」
+                return tagstr2[match]
+            }
+
+            reg = new RegExp(s2, "g"); replacer = replacer2;
+
+            if(next_char_flag){
+                keyDown.nextChar[0] = keyDown.nextChar[0].replace(reg, replacer);
+            }
+
+            for(let i=0 ; join_word.length > i ; i++){
+                join_word[i] = join_word[i].replace(reg, replacer);
+            }
+
+        }else if(optionDb.duringPlayOptions['dakuten-handakuten-split-mode'] || Calculation){
+
+            function replacer1(match, index, input) { // 「が」 → 「か゛」
+                return tagstr1[match]
+            }
+
+            reg = new RegExp(s1, "g"); replacer = replacer1;
+
+            if(next_char_flag){
+                keyDown.nextChar[0] = keyDown.nextChar[0].replace(reg, replacer);
+            }
+
+            for(let i=0 ; join_word.length > i ; i++){
+                join_word[i] = join_word[i].replace(reg, replacer);
+            }
+
+        }
+
+        return join_word;
+    }
 }
 
-class ShortcutKey extends KeyHandler {
+
+
+class TypingShortcut extends Handler {
 
 	constructor(){
 		super()
-		window.addEventListener('keydown', this.main.bind(this))
 	}
 
-	main(event){
+	shortcuts(event){
 
-		const iS_FOCUS_TEXTAREA = document.activeElement.type == "text" || document.activeElement.type == "textarea"
+		const iS_FOCUS_TEXTAREA = document.activeElement.type == "text"
 
-		if(!iS_FOCUS_TEXTAREA){
-	
-			switch(event.code){
-				case "ArrowUp" :
+		if(iS_FOCUS_TEXTAREA){return;}
 
-					if(NUMBER.value > 1){
-						this.lineSeek(-2)
-					}
-					event.preventDefault();
-					break;
-				case "ArrowDown" :
+		switch(event.code){
 
-					if(NUMBER.value < lineData.value.length){
-						this.lineSeek(0)
-					}
-					event.preventDefault();
-					break;
-				case "ArrowLeft" :
-					youtube.value.seekTo(+TIME.value - (3 * speed.value))
-					event.preventDefault();
-					break
-				case "ArrowRight" :
-					youtube.value.seekTo(+TIME.value + (3 * speed.value))
-					event.preventDefault();
-					break;
-				case "KeyS" :
+			case "ArrowDown":
+				this.changeVolume(-10)
+				event.preventDefault();
+				break;
 
-					if(event.ctrlKey) {
-						let res = confirm("現在の譜面の状態を保存しますか？");
+			case "ArrowUp":
+				this.changeVolume(10)
+				event.preventDefault();
+				break;
 
-						if( res == true ) {
-							changeTab('保存')
-						}
+			case "ArrowLeft" :
 
-						event.preventDefault();
-						return;
-					}else{
-						document.getElementById("add_button").click();
-						event.preventDefault();
-					}
-
-					break;
-				
-				case "KeyU" :
-					document.getElementById("update_button").click();
-					event.preventDefault();
-					break;
-
-				case "KeyZ" :
-
-					if(event.ctrlKey) {
-						this.undo()
-						event.preventDefault();
-					}
-
-					break;
-				case "KeyY" :
-
-					if(event.ctrlKey) {
-						//this.redo()
-						event.preventDefault();
-					}
-
-					break;
-				case "KeyD" :
-
-					LineBlur.selectBlur()
-					event.preventDefault();
-
-					break;
-				case "Delete" :
-					document.getElementById("delete_button").click()
-					event.preventDefault();
-					break;
-				case "KeyQ" :
-					setLyrics()
-					event.preventDefault();
-					break;
-				case "KeyF":
-					
-				if(event.ctrlKey && event.shiftKey) {
-					this.wordSearchReplace()
-					event.preventDefault();
-				}
-					break;
-				case "Escape" :
-
-					if(ytState.state != 'play'){
-						youtube.value.playVideo()
-					}else{
-						youtube.value.pauseVideo()
-					}
-
-					event.preventDefault();
-					break;
-				case "F9" :
-					document.getElementById("speed_down").click()
-					event.preventDefault();
-					break;
-				case "F10" :
-					document.getElementById("speed_up").click()
-					event.preventDefault();
-					break;
+				if(game.playMode == "practice" && event.ctrlKey && !event.shiftKey) {
+					this.arrowLeftPracticeMode()
+				}else{
+					this.changeDiffTime(-0.1)
 				}
 
+				event.preventDefault();
+				break;
+
+			case "ArrowRight":
+
+				if(game.playMode == "practice" && event.ctrlKey  && !event.shiftKey){
+					this.arrowRightPracticeMode()
+				}else{
+					this.changeDiffTime(0.1)
+				}
+
+				event.preventDefault();
+				break;
+
+			case "F4": //F4でやり直し
+
+				Retry.reset()
+				event.preventDefault();
+				break;
+
+			case "F7": //F7で練習モードに切り替え
+
+				// if(game.playMode == "normal"){
+				// 	practiceMode.movePracticeMode()
+				// }
+
+				event.preventDefault();
+				break;
+			case "F9": //F9で低速(練習モード)
+
+				if(game.playMode == "practice"){
+					movieSpeedController.setDownPlaySpeed()
+					effect.viewState("x"+speed.value.toFixed(2))
+				}
+
+				event.preventDefault();
+				break;
+			case "F10" ://F10で倍速
+
+				if(game.playMode == "normal"){
+					movieSpeedController.setDynamicSpeed();
+				}else{
+					movieSpeedController.setUpPlaySpeed()
+				}
+
+				effect.viewState("x"+speed.value.toFixed(2))
+				event.preventDefault();
+				break;
+
+			case "Escape" : //Escでポーズ
+
+				youtube.value.pauseVideo()
+				event.preventDefault();
+				break;
+
+			case "KanaMode" :
+			case "Romaji" :
+				this.changeInputMode()
+				event.preventDefault();
+				break;
+
+			case "Backspace" :
+
+				if(game.playMode == "practice" && practiceMode.setSeekTime){
+					practiceMode.seekLine(practiceMode.setSeekTime);
+					practiceMode.isLineRetry = true
+					event.preventDefault();
+				}
+
+				break;
+		}
+
+		//間奏スキップ
+		if(event.code == typeArea.skip.value){
+			game.skip()
+			event.preventDefault();
+		}
+
+		if(event.altKey && (event.key == "ArrowLeft" || event.key == "ArrowRight")) {
+			//Alt + Leftキーは使えるようにする(ブラウザの戻るショートカットキー)
+			return;
+		}else if(disableKeys.includes(event.code) ) {
+			event.preventDefault();
+			return;
 		}
 	}
+
+
 }
 
-new ShortcutKey()
+export const typingShortcut = new TypingShortcut()
+const disableKeys = ["Home","End","PageUp","PageDown","CapsLock","Backquote","Tab","F3","Backspace"]
 
 

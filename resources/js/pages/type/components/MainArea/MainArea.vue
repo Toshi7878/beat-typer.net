@@ -15,7 +15,17 @@ const lineRemainTime = computed(() => { return typeArea.lineRemainTime.value.toF
 //Bottom
 const currentTimeBar = computed(() => { return typeArea.currentTimeBar.value })
 const currentTimeBarMax = computed(() => { return typeArea.durationTime.value })
-const skip = computed(() => { return typeArea.skip.value })
+const skip = computed(() => { 
+
+	const SKIP_KEY = typeArea.skip.value
+	
+	if(SKIP_KEY){
+		return `Type ${SKIP_KEY} key to Skip. ⏩`;
+	}else{
+		return '';
+	}
+	  
+})
 
 const currentTime = computed(() => {
 	const TIME = typeArea.currentTime.value

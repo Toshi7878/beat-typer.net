@@ -3,6 +3,7 @@ import { typeArea } from '@/pages/type/assets/JS/consts/typeAreaRef.js';
 import { status } from '@/pages/type/assets/JS/consts/statusRef.js';
 import { result } from '@/pages/type/assets/JS/consts/resultRef.js';
 import { youtube, speed } from '@/templates/assets/JS/youtubeRef.js'
+import { typing } from '@/pages/type/assets/JS/components/KeyDown/typing.js';
 
 import _ from 'lodash';
 
@@ -19,8 +20,7 @@ class Render {
 
 	render(){
 		const LINE = map.value.data[line.count-1]
-		typeArea.lineTimeBar.value = this.correntTime - LINE.time
-		typeArea.currentTimeBar.value = this.correntTime
+		typeArea.lineTimeBar.value = this.currentTime - LINE.time
 
 		if(Math.abs(this.constantTime - typeArea.currentTimeBar.value) >= this.currentTimeBarFrequency){//ライン経過時間 ＆ 打鍵速度計算
 			typeArea.currentTimeBar.value = this.currentTime;
@@ -28,7 +28,7 @@ class Render {
 
 		if(Math.abs(this.constantTime - typeArea.lineRemainTime.value) >= 0.1){//ライン経過時間 ＆ 打鍵速度計算
 			const NEXT_LINE = map.value.data[line.count]
-			typeArea.lineRemainTime.value = (NEXT_LINE.time - this.correntTime)/speed.value; //ライン残り時間
+			typeArea.lineRemainTime.value = (NEXT_LINE.time - this.currentTime)/speed.value; //ライン残り時間
 			// this.updateLineTime('updateTypeSpeed')
 
 			//const SKIP = this.skipedCount != line.count && !keyDown.nextChar[0] && lyrics_array[line.count][0] - this.headTime > 1 || retry.resetFlag
@@ -39,14 +39,14 @@ class Render {
 			}
 
 			if(Math.abs(this.constantTime - typeArea.currentTime.value) >= 1){//曲の経過時間を[分:秒]で表示}
-				this.currentTime()
+				this.updateCurrentTime()
 			}
 
 		}
 
 	}
 
-	currentTime(){
+	updateCurrentTime(){
 		typeArea.currentTime.value = this.constantTime
 	}
 
@@ -73,7 +73,7 @@ class Render {
 		if(IS_SKIP_DISPLAY){
 
 			if(!typeArea.skip.value){
-				typeArea.skip.value = `Type ${SKIP_KEY} key to Skip. ⏩`;
+				typeArea.skip.value = SKIP_KEY;
 			}
 
 		}else if(typeArea.skip.value){
@@ -89,16 +89,16 @@ class Timer extends Render {
 
 	constructor(){
 		super()
-		this.correntTime = 0
+		this.currentTime = 0
 		this.constantTime = 0
 	}
 
 	update(){
-		this.correntTime = youtube.value.getCurrentTime()
-		this.constantTime = this.correntTime / speed.value
+		this.currentTime = youtube.value.getCurrentTime()
+		this.constantTime = this.currentTime / speed.value
 
 		const NEXT_LINE = map.value.data[line.count]
-		const IS_LINE_UPDATE = (NEXT_LINE && this.correntTime > +NEXT_LINE.time)
+		const IS_LINE_UPDATE = (NEXT_LINE && this.currentTime > +NEXT_LINE.time)
 
 		if(IS_LINE_UPDATE){
 			line.update(NEXT_LINE)
@@ -113,14 +113,13 @@ export const timer = new Timer()
 class Next {
 	setWord(){
 		this.typePattern = _.cloneDeep(map.value.typePattern[this.count]);
-		typeArea.mainWord.value = _.cloneDeep(map.value.lineWords[this.count]['k']);
-		typeArea.subWord.value = _.cloneDeep(map.value.lineWords[this.count]['r']);
+		typeArea.kanaWord.value = _.cloneDeep(map.value.lineWords[this.count]['k']);
+		typeArea.romaWord.value = _.cloneDeep(map.value.lineWords[this.count]['r']);
 
-		typeArea.subInput.value = ''
-		typeArea.mainInput.value = ''
+		typeArea.romaInputed.value = ''
+		typeArea.kanaInputed.value = ''
 
-		typeArea.subNextChar.value = ''
-		typeArea.mainNextChar.value = ''
+		typeArea.nextChar.value = typing.value.add()
 	}
 
 	setLyrics(next){

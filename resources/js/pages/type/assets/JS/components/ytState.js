@@ -4,7 +4,7 @@ import { map } from '@/pages/type/assets/JS/consts/refs.js';
 import { game } from '@/pages/type/assets/JS/consts/gameRef.js';
 import { youtube, volume } from '@/templates/assets/JS/youtubeRef.js'
 import { tabRef, changeTab } from '@/pages/type/assets/JS/consts/tabRef.js';
-
+import { Typing, typing } from '@/pages/type/assets/JS/components/KeyDown/typing.js';
 
 class PlayerEvent {
 
@@ -14,6 +14,7 @@ class PlayerEvent {
 		ytState.state = YTState.LIST[event.data]
 		game.playState.value = 'play'
 		changeTab('ステータス')
+		typing.value = new Typing()
 	}
 
 	end(event) {

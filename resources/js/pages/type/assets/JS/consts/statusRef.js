@@ -15,4 +15,4 @@ export class Status {
 
 }
 
-export let status = new Status();
+export let status = ref(new Status());

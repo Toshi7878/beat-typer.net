@@ -11,12 +11,11 @@ export class TypeArea {
 		this.lineTimeBarMax = ref(100)
 
 		//Center
-		this.mainInput = ref('')
-		this.mainNextChar = ref('')
-		this.mainWord = ref([])
-		this.subInput = ref('')
-		this.subNextChar = ref('')
-		this.subWord = ref([])
+		this.kanaInputed = ref('')
+		this.kanaWord = ref([])
+		this.romaInputed = ref('')
+		this.nextChar = ref({'k':'','r':[]})
+		this.romaWord = ref([])
 		this.countDown = ref('')
 		this.lyrics = ref('')
 		this.nextLyrics = ref('')
@@ -30,4 +29,4 @@ export class TypeArea {
 	}
 }
 
-export let typeArea = new TypeArea()
+export let typeArea = ref(new TypeArea())

@@ -4,10 +4,10 @@ import { computed } from 'vue';
 import { typeArea } from '@/pages/type/assets/JS/consts/typeAreaRef.js';
 
 //Word
-const mainInput = computed(() => { return typeArea.mainInput.value })
-const mainNextChar = computed(() => { return typeArea.mainNextChar.value['k'] })
-const mainWord = computed(() => {
-	const WORD = typeArea.mainWord.value.join("");
+const kanaInputed = computed(() => { return typeArea.kanaInputed.value })
+const kanaNextChar = computed(() => { return typeArea.nextChar.value['k'] })
+const kanaWord = computed(() => {
+	const WORD = typeArea.kanaWord.value.join("");
 
 	if (WORD) {
 		return WORD
@@ -15,10 +15,10 @@ const mainWord = computed(() => {
 		return ''
 	}
 })
-const subInput = computed(() => { return typeArea.subInput.value })
-const subNextChar = computed(() => { return typeArea.subNextChar.value['r'] })
-const subWord = computed(() => {
-	const WORD = typeArea.subWord.value.join("");
+const romaInputed = computed(() => { return typeArea.romaInputed.value })
+const romaNextChar = computed(() => { return typeArea.nextChar.value['r'][0] })
+const romaWord = computed(() => {
+	const WORD = typeArea.romaWord.value.join("");
 
 	if (WORD) {
 		return WORD
@@ -47,10 +47,10 @@ const nextTypeSpeed = computed(() => {
 		<div id="word_area" class="my-1 mx-2">
 			<div id="type_area" class="text-pre font">
 				<div id="main" class="text-shadow text-truncate">
-					<span class='correct-input text-secondary'>{{ mainInput }}</span><span class='next-char text-danger'>{{ mainNextChar }}</span><span class='word'>{{ mainWord }}</span>
+					<span class='correct-input text-secondary'>{{ kanaInputed }}</span><span class='next-char text-danger'>{{ kanaNextChar }}</span><span class='word'>{{ kanaWord }}</span>
 				</div>
 				<div id="sub" class="mt-1 text-shadow text-uppercase text-truncate">
-					<span class='correct-input text-secondary'>{{ subInput }}</span><span class='next-char text-danger'>{{ subNextChar }}</span><span class='word'>{{ subWord }}</span>
+					<span class='correct-input text-secondary'>{{ romaInputed }}</span><span class='next-char text-danger'>{{ romaNextChar }}</span><span class='word'>{{ romaWord }}</span>
 				</div>
 			</div>
 			<div id="lyrics" class="h3 mt-3 text-truncate d-flex">
