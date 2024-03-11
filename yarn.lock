@@ -2669,6 +2669,11 @@ vue-demi@>=0.14.7:
   resolved "https://registry.npmjs.org/vue-demi/-/vue-demi-0.14.7.tgz"
   integrity sha512-EOG8KXDQNwkJILkx/gPcoL/7vH+hORoBaKgGe+6W7VFMvCYJfmF2dGbvgDroVnI8LU7/kTu8mbjRZGBU1z9NTA==
 
+vue-demi@latest:
+  version "0.14.7"
+  resolved "https://registry.npmjs.org/vue-demi/-/vue-demi-0.14.7.tgz"
+  integrity sha512-EOG8KXDQNwkJILkx/gPcoL/7vH+hORoBaKgGe+6W7VFMvCYJfmF2dGbvgDroVnI8LU7/kTu8mbjRZGBU1z9NTA==
+
 vue-good-table-next@^0.2.1:
   version "0.2.1"
   resolved "https://registry.npmjs.org/vue-good-table-next/-/vue-good-table-next-0.2.1.tgz"
@@ -2677,12 +2682,19 @@ vue-good-table-next@^0.2.1:
     date-fns "^2.25.0"
     lodash.isequal "^4.5.0"
 
+vue-lite-youtube-embed@^1.2.1:
+  version "1.2.1"
+  resolved "https://registry.npmjs.org/vue-lite-youtube-embed/-/vue-lite-youtube-embed-1.2.1.tgz"
+  integrity sha512-uBc0IJtb7gskQTKFJYMKbgW51EPSEetLqjiYRQ+X20UAYDXN42MqaiSNyPnJ8gN+rYexuS2UQRMaRZq9rVPgIw==
+  dependencies:
+    vue-demi latest
+
 vue-use-fixed-header@^2.0.3:
   version "2.0.3"
   resolved "https://registry.npmjs.org/vue-use-fixed-header/-/vue-use-fixed-header-2.0.3.tgz"
   integrity sha512-kUgO3uBAbnTIv5m5SPGmVelN1yZ/4IwENdlqtja6u/fzLzu6OePExwXVOKVGp+a3oGI0dLQ43g6GgvjdCtwTuw==
 
-vue@^3.0.0, "vue@^3.0.0-0 || ^2.6.0", vue@^3.2.25, vue@^3.3.4, vue@^3.4.15, vue@^3.4.18, "vue@>= 3.0.0 < 4", vue@3.4.19:
+"vue@^2.6.14 || >=3.0.0", vue@^3.0.0, "vue@^3.0.0-0 || ^2.6.0", vue@^3.2.25, vue@^3.3.4, vue@^3.4.15, vue@^3.4.18, "vue@>= 3.0.0 < 4", vue@3.4.19:
   version "3.4.19"
   resolved "https://registry.npmjs.org/vue/-/vue-3.4.19.tgz"
   integrity sha512-W/7Fc9KUkajFU8dBeDluM4sRGc/aa4YJnOYck8dkjgZoXtVsn3OeTGni66FV1l3+nvPA7VBFYtPioaGKUmEADw==

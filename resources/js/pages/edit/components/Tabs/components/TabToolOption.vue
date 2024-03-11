@@ -2,7 +2,7 @@
 
 import { convertMode } from '@/pages/edit/assets/JS/consts/refs.js';
 import { db, option } from '@/pages/edit/assets/JS/DB/db.js';
-import { youtube, speed, volume } from '@/templates/assets/JS/youtubeRef.js'
+import { youtube, playSpeed, volume } from '@/templates/assets/JS/youtubeRef.js'
 
 
 class Event {

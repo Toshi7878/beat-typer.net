@@ -24,3 +24,31 @@ const ID = window.movieId
 	height: 215px;
 }
 </style>
+<!-- 
+
+<script setup>
+import LiteYouTubeEmbed from 'vue-lite-youtube-embed'
+import 'vue-lite-youtube-embed/style.css'
+import { youtube } from '@/templates/assets/JS/youtubeRef.js'
+import { ytState } from '@/pages/type/assets/JS/components/ytState.js';
+
+import { map } from '@/pages/type/assets/JS/consts/refs.js';
+
+const ID = window.movieId
+</script>
+
+<template>
+		<div id="youtube_container" class="col-xs mb-3 me-2" :class="{'invisible': map.value}">
+		<!-- 16:9をpx単位で計算してwidthとheightを求める https://uzurea.net/resolution-16-9/ -->
+		<!-- <LiteYouTubeEmbed :id="ID" ref="youtube" params="controls=0&disablekb=1"></LiteYouTubeEmbed> -->
+<!-- </div> -->
+
+<!-- </template>
+
+
+<style>
+#youtube_container {
+	width: 382.2222px;
+	height: 215px;
+}
+</style> -->

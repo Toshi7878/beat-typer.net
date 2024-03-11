@@ -14,22 +14,27 @@ export class Type {
 		lineResult.value.typeCount ++
 
 		if(game.inputMode == 'kana'){
-			result.kanaTypeCount++
+			result.value.kanaTypeCount++
 		}else if(game.inputMode == 'flick'){
-			result.flickTypeCount++
+			result.value.flickTypeCount++
 		}else{
-			result.romaTypeCount++
+			result.value.romaTypeCount++
 		}
 
-		if(result.maxCombo < typeArea.value.combo){
-			result.maxCombo = typeArea.value.combo;
+		if(result.value.maxCombo < typeArea.value.combo){
+			result.value.maxCombo = typeArea.value.combo;
 		}
 
 	}
 
 	static completed(){	
 			const NEXT_LINE = map.value.data[line.count]
-			status.value.point.timeBonus = Math.round(( (NEXT_LINE.time - timer.currentTime) / speed.value )* 100)
+			status.value.point.timeBonus = Math.round(( (NEXT_LINE.time - timer.currentTime) * speed.value ) * 100)
+			result.value.completeCount ++
+			lineResult.value.completed = true
+			result.value.storeLineResult()
+			// lineResult.value.clearTime = timer.currentTime / speed.value
+			status.value.updateStatus(['Line'])
 		}
 	}
 
@@ -37,8 +42,8 @@ export class Miss {
 
 	static add(){
 		status.value.missCount ++;
-		lineResult.missCount ++;
+		lineResult.value.missCount ++;
 		typeArea.value.combo = 0;
-		status.point.type -= 5
+		status.value.point.type -= 5
 	}
 }

@@ -44,7 +44,8 @@ class KeyCalc extends Event {
 	}
 
 	hasRomaPattern(){
-		let romaPattern = typeArea.value.nextChar['r']
+		
+		let romaPattern = _.cloneDeep(typeArea.value.nextChar['r']);
 		let kana = typeArea.value.nextChar['k']
 		const CHAR = this.char['key'][0]
 
@@ -77,10 +78,11 @@ class KeyCalc extends Event {
 		}
 
 		this.kanaFilter(kana, CHAR, romaPattern)
+		typeArea.value.nextChar['r'] = romaPattern;
 		return true;
 	}
 
-	romaPatternFilter(kana, CHAR, romaPattern){
+	romaPatternFilter(kana, CHAR){
 
 		if(kana == 'ん'){
 			// xnで「ん」を打鍵する場合、次の文字から[nn, n']の打鍵パターンを除外する
@@ -167,7 +169,7 @@ class Judge extends KeyCalc {
 		if(IS_SUCCESS){ //正答
 			this.success()
 		}else { //ミス
-
+			this.failure()
 		}
 
     }
@@ -194,6 +196,15 @@ class Judge extends KeyCalc {
 		this.char.key = this.char.key[0]
 		lineResult.value.typingResult.push({char:this.char, result:true, time:timer.currentTime, kanaMode:KANA_MODE});
 
+	}
+
+	failure(){
+		Miss.add()
+
+		const KANA_MODE = game.inputMode != 'roma'
+		
+		this.char.key = this.char.key[0]
+		lineResult.value.typingResult.push({char:this.char, result:false, time:timer.currentTime, kanaMode:KANA_MODE});
 	}
 
 }

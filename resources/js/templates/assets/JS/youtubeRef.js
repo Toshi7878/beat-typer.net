@@ -8,4 +8,6 @@ export const youtube = ref('')
 export const volume = ref(50)
 
 //動画スピード
+export const playSpeed = ref(1)
+
 export const speed = ref(1)

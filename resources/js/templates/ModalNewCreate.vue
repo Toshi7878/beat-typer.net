@@ -25,7 +25,7 @@ class Event {
 		const ID = new YouTubeID(document.getElementById("url_input").value).id
 
 		if (ID && ID.length == 11) {
-			window.location.href = `/movie/edit/new?id=${ID}`;
+			window.location.href = `/edit/new?id=${ID}`;
 		}
 	}
 

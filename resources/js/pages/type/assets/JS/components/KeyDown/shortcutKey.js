@@ -1,9 +1,10 @@
-import { map } from '@/pages/type/assets/JS/consts/refs.js';
-import { youtube, speed } from '@/templates/assets/JS/youtubeRef.js'
-import { ytState } from '@/pages/type/assets/JS/components/ytState.js';
+import { youtube } from '@/templates/assets/JS/youtubeRef.js'
 import { game } from '@/pages/type/assets/JS/consts/gameRef.js';
 import { typeArea } from '@/pages/type/assets/JS/consts/typeAreaRef.js';
 import { retry } from '@/pages/type/assets/JS/components/retry.js';
+import { SpeedChange } from '@/pages/type/assets/JS/components/speedChange.js';
+import { Ticker } from "@createjs/easeljs";;
+import { typing } from '@/pages/type/assets/JS/components/KeyDown/typing.js';
 
 export class ShortcutHandler {
 
@@ -15,7 +16,7 @@ export class ShortcutHandler {
 
 				//F7で練習モード
 				if(event.key == "F7"){
-					game.playMode = "practice"
+					game.playMode.value = "practice"
 					youtube.value.playVideo()
 					window.removeEventListener('keydown', ShortcutHandler.Start);
 					event.preventDefault();
@@ -51,53 +52,8 @@ export class ShortcutHandler {
 	}
 
 	static keyEventDisabler(){
-		window.removeEventListener("keydown",Flick.keyDeviceDisabled)
-		tick.removeEvent()
-		keyDown.removeEvent()
-
-		timeSkip.removeSkipEvent()
-
-		if(typing_play_mode == 'flick'){
-			keyDown.flickInputMaxValue = ""
-			gameStart.duringPlayAccessElements['flick-input'].blur()
-			gameStart.duringPlayAccessElements['flick-input-second'].blur()
-		}
-
-	}
-
-	// static enterKeyForScoreSubmission(event){
-
-	// 	if((document.activeElement.tagName != "INPUT" || document.activeElement.type == "radio") && event.key == "Enter"){
-
-	// 		if(finished && play_mode=="normal" && document.querySelector('[onclick="submit_score()"]') != null){//曲終了、Enterキーで記録送信
-	// 			submit_score()
-	// 		}
-
-	// 	}
-	// }
-
-	static finishedRetryMovie(event){
-		const RETRY_TRIGGER = (event.type == "click" && (/btn_replay/.test(event.target.src) || event.target.id == 'movie_cover') || event.key=="F4")
-
-		if(RETRY_TRIGGER && (document.activeElement.type != "text" && play_mode == "normal" || play_mode == "practice")){
-
-			if(play_mode == 'normal'){
-				retry.reset()
-			}else{
-				retry.practiceModeReset()
-				practiceMode.seekLine(0)
-			}
-
-			window.removeEventListener('keydown',retry.finishedEvent);
-			event.preventDefault();
-
-		}else if(play_mode == "normal" && event.key == "F7" && document.activeElement.tagName != "INPUT"){
-			practiceMode.movePracticeMode()
-			event.preventDefault();
-		}else if(event.key == "F3" || event.key == "F7"){
-			event.returnValue = false;
-			event.preventDefault();
-		}
+		Ticker.removeAllEventListeners()
+		typing.value.removeEvent()
 
 	}
 }
@@ -357,7 +313,7 @@ class TypingShortcut extends Handler {
 
 			case "ArrowLeft" :
 
-				if(game.playMode == "practice" && event.ctrlKey && !event.shiftKey) {
+				if(game.playMode.value == "practice" && event.ctrlKey && !event.shiftKey) {
 					this.arrowLeftPracticeMode()
 				}else{
 					this.changeDiffTime(-0.1)
@@ -368,7 +324,7 @@ class TypingShortcut extends Handler {
 
 			case "ArrowRight":
 
-				if(game.playMode == "practice" && event.ctrlKey  && !event.shiftKey){
+				if(game.playMode.value == "practice" && event.ctrlKey  && !event.shiftKey){
 					this.arrowRightPracticeMode()
 				}else{
 					this.changeDiffTime(0.1)
@@ -385,30 +341,21 @@ class TypingShortcut extends Handler {
 
 			case "F7": //F7で練習モードに切り替え
 
-				// if(game.playMode == "normal"){
-				// 	practiceMode.movePracticeMode()
-				// }
 
 				event.preventDefault();
 				break;
 			case "F9": //F9で低速(練習モード)
 
-				if(game.playMode == "practice"){
-					movieSpeedController.setDownPlaySpeed()
-					effect.viewState("x"+speed.value.toFixed(2))
-				}
-
 				event.preventDefault();
 				break;
 			case "F10" ://F10で倍速
 
-				if(game.playMode == "normal"){
-					movieSpeedController.setDynamicSpeed();
+				if(game.playMode.value == "normal"){
+					SpeedChange.realtimeChange()
 				}else{
-					movieSpeedController.setUpPlaySpeed()
+
 				}
 
-				effect.viewState("x"+speed.value.toFixed(2))
 				event.preventDefault();
 				break;
 
@@ -426,7 +373,7 @@ class TypingShortcut extends Handler {
 
 			case "Backspace" :
 
-				if(game.playMode == "practice" && practiceMode.setSeekTime){
+				if(game.playMode.value == "practice" && practiceMode.setSeekTime){
 					practiceMode.seekLine(practiceMode.setSeekTime);
 					practiceMode.isLineRetry = true
 					event.preventDefault();

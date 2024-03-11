@@ -1,8 +1,8 @@
 import {map} from '@/pages/type/assets/JS/consts/refs.js';
 import { typeArea } from '@/pages/type/assets/JS/consts/typeAreaRef.js';
 import { status } from '@/pages/type/assets/JS/consts/statusRef.js';
-import { result, lineResult } from '@/pages/type/assets/JS/consts/resultRef.js';
-import { youtube, speed } from '@/templates/assets/JS/youtubeRef.js'
+import { result, lineResult, LineResult } from '@/pages/type/assets/JS/consts/resultRef.js';
+import { youtube, playSpeed, speed } from '@/templates/assets/JS/youtubeRef.js'
 import { typing } from '@/pages/type/assets/JS/components/KeyDown/typing.js';
 
 import _ from 'lodash';
@@ -21,9 +21,21 @@ class Render {
 			typeArea.value.currentTimeBar = this.currentTime;
 		}
 
-		if(Math.abs(this.constantTime - typeArea.value.lineRemainTime) >= 0.1){//ライン経過時間 ＆ 打鍵速度計算
-			const NEXT_LINE = map.value.data[line.count]
-			typeArea.value.lineRemainTime = (NEXT_LINE.time - this.currentTime)/speed.value; //ライン残り時間
+		const NEXT_LINE = map.value.data[line.count]
+		const REMAIN_TIME = (NEXT_LINE.time - this.currentTime)/speed.value
+		if(Math.abs(REMAIN_TIME - typeArea.value.lineRemainTime) >= 0.1){//ライン経過時間 ＆ 打鍵速度計算
+			const LINE = map.value.data[line.count-1]
+			typeArea.value.lineRemainTime = REMAIN_TIME; //ライン残り時間
+
+			if(!lineResult.value.completed){
+				this.lineTime = this.currentTime - LINE.time / speed.value
+
+				const IS_WORD = typeArea.value.nextChar['k']
+				if(IS_WORD){
+					this.updateTypeSpeed()
+				}
+			}
+
 			this.skipGuide()
 
 			if(Math.abs(this.constantTime - typeArea.value.currentTime) >= 1){//曲の経過時間を[分:秒]で表示}
@@ -32,6 +44,22 @@ class Render {
 
 		}
 
+	}
+
+	updateTypeSpeed(){
+		const LINE_TYPE_SPEED = _.round(lineResult.value.typeCount / this.lineTime, 2) * 60
+		const TOTAL_TYPE_TIME = this.lineTime + result.value.totalTypeTime //タイピングワードが存在していた累計時間(裏ステータス)
+		const TYPE_SPEED = _.round(status.value.typeCount/TOTAL_TYPE_TIME, 2) * 60
+		typeArea.value.lineTypeSpeed = _.round(LINE_TYPE_SPEED)
+		status.value.typeSpeed = _.round(TYPE_SPEED)
+
+		// if(this.linePlayTime <=1 && !typingCounter.completed || this.lineTypingSpeed == this.typingSpeed || !keyDown.nextChar){
+		// 	this.speedMaker=""
+		// }else if(this.typingSpeed>this.lineTypingSpeed || (this.typingSpeed>this.lineTypingSpeed&&typingCounter.completed)){
+		// 	this.speedMaker="▼"
+		// }else if(this.typingSpeed<this.lineTypingSpeed || (this.typingSpeed<this.lineTypingSpeed&&typingCounter.completed)){
+		// 	this.speedMaker="▲"
+		// }
 	}
 
 	skipGuide(){
@@ -66,6 +94,8 @@ class Timer extends Render {
 		super()
 		this.currentTime = 0
 		this.constantTime = 0
+		this.lineTime = 0
+		this.totalTypeTime = 0
 	}
 
 	update(){
@@ -106,7 +136,7 @@ class Next {
 		const NEXT_TO_NEXT = map.value.data[line.count]
 		typeArea.value.lineTimeBarMax = NEXT_TO_NEXT.time - next.time
 		typeArea.value.nextLyrics = NEXT_TO_NEXT.lyrics
-		typeArea.value.nextTypeSpeed = (map.value.romaLineSpeedList[this.count]*60)*speed.value
+		typeArea.value.nextTypeSpeed = (map.value.romaLineSpeedList[this.count] * 60 ) * speed.value
 	}
 }
 
@@ -120,10 +150,19 @@ class Line extends Next {
 	}
 
 	result(){
-		status.value.score += status.value.point.type + status.value.point.timeBonus;
-		status.value.point = {'type':0,'timeBonus':0}}
+
+
+		const IS_WORD = typeArea.value.nextChar['k']
+
+		if(IS_WORD){
+			result.value.storeLineResult()
+			result.value.failureCount ++
+			status.value.updateStatus(['Line'])
+		}
+	}
 
 	update(next){
+		lineResult.value = new LineResult()
 		this.setWord()
 
 		this.setLyrics(next)

@@ -1,6 +1,6 @@
 import { ref } from 'vue';
-import { timer, line } from '@/pages/type/assets/JS/components/timer.js';
-import { youtube, speed } from '@/templates/assets/JS/youtubeRef.js'
+import { line } from '@/pages/type/assets/JS/components/timer.js';
+import { youtube, playSpeed } from '@/templates/assets/JS/youtubeRef.js'
 import {map} from '@/pages/type/assets/JS/consts/refs.js';
 import { TypeArea, typeArea } from '@/pages/type/assets/JS/consts/typeAreaRef.js';
 import { Status, status } from '@/pages/type/assets/JS/consts/statusRef.js';
@@ -16,13 +16,13 @@ class Game {
 
 	skip(){
 		const NEXT_LINE = map.value.data[line.count]
-		youtube.value.seekTo( (NEXT_LINE.time - 1) + (1 - speed.value) )
+		youtube.value.seekTo( (NEXT_LINE.time - 1) + (1 - playSpeed.value) )
 		typeArea.value.skip = ''
 	}
 
 	initialize(){
 		typeArea.value = new TypeArea()
-		status.value = new Status()
+		status.value = new Status(map.value.lineLength)
 		result.value = new Result(map.value.lineLength)
 		lineResult.value = new LineResult()
 		map.value.setTotalTime(map.value.movieTotalTime)

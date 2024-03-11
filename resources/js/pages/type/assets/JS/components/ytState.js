@@ -3,8 +3,9 @@ import { timer, line } from '@/pages/type/assets/JS/components/timer.js';
 import { map } from '@/pages/type/assets/JS/consts/refs.js';
 import { game } from '@/pages/type/assets/JS/consts/gameRef.js';
 import { youtube, volume } from '@/templates/assets/JS/youtubeRef.js'
-import { tabRef, changeTab } from '@/pages/type/assets/JS/consts/tabRef.js';
+import { changeTab } from '@/pages/type/assets/JS/consts/tabRef.js';
 import { Typing, typing } from '@/pages/type/assets/JS/components/KeyDown/typing.js';
+import { ShortcutHandler } from '@/pages/type/assets/JS/components/KeyDown/shortcutKey.js';
 
 
 class PlayerEvent {
@@ -12,7 +13,6 @@ class PlayerEvent {
 	play(event) {
 		Ticker.on("tick", timer.update.bind(timer))
 		Ticker.timingMode = Ticker.RAF;
-		ytState.state = YTState.LIST[event.data]
 		const gameState = game.playState.value
 
 		if(gameState == 'ready'){
@@ -22,17 +22,27 @@ class PlayerEvent {
 			game.initialize()
 		}
 
+		if(ytState.state == 'pause'){
+			window.removeEventListener('keydown',ShortcutHandler.unPauseShortcut, true);
+			window.removeEventListener('keydown',ShortcutHandler.disableSpaceKey, true);
+			typing.value.addEvent()
+		}
+
+
+		ytState.state = YTState.LIST[event.data]
+
 	}
 
 	end(event) {
 		ytState.state = YTState.LIST[event.data]
-		Ticker.removeAllEventListeners()
+		ShortcutHandler.keyEventDisabler()
 		game.playState.value = 'end'
 	}
 
 	pause(event) {
 		ytState.state = YTState.LIST[event.data]
-		Ticker.removeAllEventListeners()
+		window.addEventListener('keydown',ShortcutHandler.unPauseShortcut, true);
+		ShortcutHandler.keyEventDisabler()
 	}
 
 	seek(event) {

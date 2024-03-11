@@ -47,10 +47,10 @@ const nextTypeSpeed = computed(() => {
 		<div id="word_area" class="my-1 mx-2">
 			<div id="type_area" class="text-pre font">
 				<div id="main" class="text-shadow text-truncate">
-					<span class='correct-input text-secondary'>{{ kanaInputed }}</span><span class='next-char text-danger'>{{ kanaNextChar }}</span><span class='word'>{{ kanaWord }}</span>
+					<span class='correct-input'>{{ kanaInputed }}</span><span class='next-char'>{{ kanaNextChar }}</span><span class='word'>{{ kanaWord }}</span>
 				</div>
 				<div id="sub" class="mt-1 text-shadow text-uppercase text-truncate">
-					<span class='correct-input text-secondary'>{{ romaInputed }}</span><span class='next-char text-danger'>{{ romaNextChar }}</span><span class='word'>{{ romaWord }}</span>
+					<span class='correct-input'>{{ romaInputed }}</span><span class='next-char'>{{ romaNextChar }}</span><span class='word'>{{ romaWord }}</span>
 				</div>
 			</div>
 			<div id="lyrics" class="h3 mt-3 text-truncate d-flex">
@@ -109,5 +109,9 @@ const nextTypeSpeed = computed(() => {
 
 .font {
 	font-family: "Yu Gothic", "YuGothic";
+}
+
+.correct-input{
+	color:#fbb278;
 }
 </style>

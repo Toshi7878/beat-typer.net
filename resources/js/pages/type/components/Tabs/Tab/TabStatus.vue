@@ -14,6 +14,8 @@ if(timeBonus){
   
 })
 
+const typeSpeed = computed(() => { return status.value.typeSpeed; })
+
 </script>
 
 <template>
@@ -29,7 +31,7 @@ if(timeBonus){
 					<span class="position-relative"><span id='type_value'>{{ status.typeCount }}</span><span class="status-border-bottom"></span></span>
 				</td>
 				<td id='type_speed'><span class="label">kpm</span>
-					<span class="position-relative"><span id='type_speed_value'>{{ status.typeSpeed }}</span><span class="status-border-bottom"></span></span>
+					<span class="position-relative"><span id='type_speed_value'>{{ typeSpeed }}</span><span class="status-border-bottom"></span></span>
 				</td>
 
 

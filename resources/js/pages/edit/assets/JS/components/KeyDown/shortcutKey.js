@@ -1,5 +1,5 @@
 import { lineData, NUMBER, TIME, changeTab, undoSet, redoSet } from '@/pages/edit/assets/JS/consts/refs.js';
-import { youtube, speed } from '@/templates/assets/JS/youtubeRef.js'
+import { youtube, playSpeed } from '@/templates/assets/JS/youtubeRef.js'
 import { LineBlur } from '@/pages/edit/assets/JS/components/selectBlur.js';
 import { setLyrics } from '@/pages/edit/assets/JS/components/lyricsBox.js';
 import { ytState } from '@/pages/edit/assets/JS/components/ytState.js';
@@ -160,11 +160,11 @@ class ShortcutKey extends KeyHandler {
 					event.preventDefault();
 					break;
 				case "ArrowLeft" :
-					youtube.value.seekTo(+TIME.value - (3 * speed.value))
+					youtube.value.seekTo(+TIME.value - (3 * playSpeed.value))
 					event.preventDefault();
 					break
 				case "ArrowRight" :
-					youtube.value.seekTo(+TIME.value + (3 * speed.value))
+					youtube.value.seekTo(+TIME.value + (3 * playSpeed.value))
 					event.preventDefault();
 					break;
 				case "KeyS" :
