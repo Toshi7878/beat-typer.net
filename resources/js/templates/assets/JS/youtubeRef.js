@@ -5,7 +5,7 @@ import { ref } from 'vue'
 export const youtube = ref('')
 
 //ボリューム
-export const volume = ref(50)
+export const volume = ref(5)
 
 //動画スピード
 export const playSpeed = ref(1)

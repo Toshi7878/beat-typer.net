@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\IndexController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\EditController;
 use App\Http\Controllers\TypeController;
@@ -18,6 +19,7 @@ use App\Http\Controllers\GetMapController;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
+Route::get('/', IndexController::class);
 
 Route::get('/edit/new', [EditController::class, 'newCreate']);
 Route::get('/type/{id}', TypeController::class);

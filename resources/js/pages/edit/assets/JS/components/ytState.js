@@ -1,7 +1,7 @@
-import { Ticker } from "@createjs/easeljs";;
+import { onTick } from 'vue3-pixi';
 import { timer, line } from '@/pages/edit/assets/JS/components/timer.js';
 import { lineData, URL, TITLE } from '@/pages/edit/assets/JS/consts/refs.js';
-import { youtube, playSpeed, volume } from '@/templates/assets/JS/youtubeRef.js'
+import { youtube, volume } from '@/templates/assets/JS/youtubeRef.js'
 import { LineBlur } from '@/pages/edit/assets/JS/components/selectBlur.js';
 
 class YTState{
@@ -82,20 +82,19 @@ export const ytState = new YTState()
 class PlayerEvent {
 
 	static play(event) {
-		Ticker.on("tick", timer.update.bind(timer))
-		Ticker.timingMode = Ticker.RAF;
+		onTick(timer.update.bind(timer))
 		ytState.state = YTState.LIST[event.data]
 		line.updateBackgroundColor(line.count - 1)
 	}
 
 	static end(event) {
 		ytState.state = YTState.LIST[event.data]
-		Ticker.removeAllEventListeners()
+		onTick()
 	}
 
 	static pause(event) {
 		ytState.state = YTState.LIST[event.data]
-		Ticker.removeAllEventListeners()
+		onTick()
 	}
 
 	static seek(event) {

@@ -1,0 +1,6 @@
+@media screen and (min-width:1500px) and (min-height: 950px) {
+	body {
+		transform: scale(1.4);
+		transform-origin: top;
+	}
+}

@@ -1,4 +1,5 @@
-import { Ticker } from "@createjs/easeljs";;
+import { onTick } from 'vue3-pixi';
+
 import { timer, line } from '@/pages/type/assets/JS/components/timer.js';
 import { map } from '@/pages/type/assets/JS/consts/refs.js';
 import { game } from '@/pages/type/assets/JS/consts/gameRef.js';
@@ -11,8 +12,8 @@ import { ShortcutHandler } from '@/pages/type/assets/JS/components/KeyDown/short
 class PlayerEvent {
 
 	play(event) {
-		Ticker.on("tick", timer.update.bind(timer))
-		Ticker.timingMode = Ticker.RAF;
+		onTick(timer.update.bind(timer))
+		
 		const gameState = game.playState.value
 
 		if(gameState == 'ready'){

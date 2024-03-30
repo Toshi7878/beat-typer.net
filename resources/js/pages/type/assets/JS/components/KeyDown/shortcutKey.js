@@ -3,8 +3,8 @@ import { game } from '@/pages/type/assets/JS/consts/gameRef.js';
 import { typeArea } from '@/pages/type/assets/JS/consts/typeAreaRef.js';
 import { retry } from '@/pages/type/assets/JS/components/retry.js';
 import { SpeedChange } from '@/pages/type/assets/JS/components/speedChange.js';
-import { Ticker } from "@createjs/easeljs";;
 import { typing } from '@/pages/type/assets/JS/components/KeyDown/typing.js';
+import { onTick } from 'vue3-pixi'
 
 export class ShortcutHandler {
 
@@ -52,7 +52,7 @@ export class ShortcutHandler {
 	}
 
 	static keyEventDisabler(){
-		Ticker.removeAllEventListeners()
+		onTick()
 		typing.value.removeEvent()
 
 	}
@@ -112,7 +112,7 @@ class Handler {
 			clone = FirstLine.cloneNode(true)
 		}
 
-		createjs.Ticker.removeAllEventListeners('tick');
+		onTick()
 		effect.viewState("◁")
 		practiceMode.setSeekLine(clone)
 		line.updateLineView()
@@ -140,7 +140,7 @@ class Handler {
 		clone = document.querySelector('[number="'+(practiceMode.setLineCount+1)+'"]').cloneNode(true)
 
 
-        createjs.Ticker.removeAllEventListeners('tick');
+		onTick()
 		effect.viewState("▷")
 		practiceMode.setSeekLine(clone)
 		Seek.getLyricsCount(practiceMode.setSeekTime , practiceMode.setLineCount == line.count-1 ? "":-1)

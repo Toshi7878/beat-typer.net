@@ -1,0 +1,19 @@
+.table-dark {
+	--bs-table-color: #ddd;
+	--bs-table-bg: #303030;
+	--bs-table-border-color: #414141;
+	--bs-table-striped-bg: #393939;
+	--bs-table-striped-color: #DDD;
+	--bs-table-active-bg: #414141;
+	--bs-table-active-color: #DDD;
+	--bs-table-hover-bg: #3d3d3d;
+	--bs-table-hover-color: #DDD;
+	color: #ddd;
+	border-color: #414141;
+}
+
+.text-truncate {
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: pre;
+}
