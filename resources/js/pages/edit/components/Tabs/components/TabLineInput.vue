@@ -101,6 +101,27 @@ class Event {
 
 	}
 
+	static addRubyTag(event) {
+
+		if (event.code == 'Enter') {
+			const start = event.target.selectionStart;
+			const end = event.target.selectionEnd;
+
+			if (end - start < 1) {
+				return false;
+			}
+
+			const text = LYRIC.value;
+			LYRIC.value = `${text.slice(0, start)}<ruby>${text.slice(start, end)}<rt></rt></ruby>${text.slice(end, text.length)}`;
+
+			setTimeout(() => {
+				event.target.focus()
+				event.target.setSelectionRange(LYRIC.value.search("<rt></rt></ruby>") + 4, LYRIC.value.search("<rt></rt></ruby>") + 4);
+			})
+		}
+
+	}
+
 }
 
 

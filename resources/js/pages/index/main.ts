@@ -1,22 +1,33 @@
 import { createApp } from 'vue'
 import App from './App.vue'
-import {createBootstrap} from 'bootstrap-vue-next'
+import { createBootstrap } from 'bootstrap-vue-next'
 import YouTube from 'vue3-youtube'
 import { Modal } from '@kouts/vue-modal'
-import {Tabs, Tab} from 'vue3-tabs-component'
+import { Tabs, Tab } from 'vue3-tabs-component'
 // Vuetify
 import { createVuetify } from 'vuetify'
 import * as components from 'vuetify/components'
 import * as directives from 'vuetify/directives'
+import colors from 'vuetify/util/colors'
+
+interface ThemeOptions {
+  dark: boolean;
+  defaultTheme: string;
+}
 
 const vuetify = createVuetify({
   components,
   directives,
-  theme: {
-	dark: true,
-    defaultTheme: 'dark'
+  theme: <ThemeOptions>{
+    dark: true,
+    defaultTheme: 'dark',
+    colors: {
+      primary: colors.red.darken1, // #E53935
+      secondary: colors.grey.lighten4, // #FFCDD2
+    }
   }
-})
+
+});
 
 // Add the necessary CSS
 import 'vuetify/styles'
@@ -35,15 +46,15 @@ import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 library.add(faPause, faForward)
 
 
-const app = createApp(App).use(vuetify)
+const app: any = createApp(App).use(vuetify)
 
 app.use(createBootstrap())// Important
 app.config.devtools = true;
 
 app
-.component('YouTube', YouTube)
-.component('Modal', Modal)
-.component('tabs', Tabs)
-.component('tab', Tab)
-.component('font-awesome-icon', FontAwesomeIcon)
-.mount('#app')
+  .component('YouTube', YouTube)
+  .component('Modal', Modal)
+  .component('tabs', Tabs)
+  .component('tab', Tab)
+  .component('font-awesome-icon', FontAwesomeIcon)
+  .mount('#app')

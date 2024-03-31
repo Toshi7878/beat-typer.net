@@ -14,6 +14,19 @@ class WordConvert {
 	}
 
 	wordFormat(Lyric){
+		const ruby_convert = Lyric.match(/<*ruby(?: .+?)?>.*?<*\/ruby*>/g)
+
+		if(ruby_convert){
+
+			for(let v = 0;v<ruby_convert.length;v++){
+				const start = ruby_convert[v].indexOf("<rt>")+4
+				const end = ruby_convert[v].indexOf("</rt>")
+				const ruby = ruby_convert[v].slice(start,end)
+				Lyric = Lyric.replace(ruby_convert[v],ruby)
+			}
+			
+		}
+
 		return Lyric
 		.replace(/[ 　]+$/,"").replace(/^[ 　]+/,"")
 		.replace(/…/g,"...")
@@ -89,8 +102,9 @@ class WordConvert {
 
 		for(let i=0;i<LIST.length;i++){
 			const IS_ZENKAKU = LIST[i][0].match(/^[^\x01-\x7E\xA1-\xDF]+$/)
-
-			if(this.symbolList.includes(LIST[i][0])){
+			const IS_ADD_SYMBOL = this.symbolList.includes(LIST[i][0])
+			const IS_SYMBOL = nonSymbol.concat(addSymbol).concat(addSymbolAll).includes(LIST[i][0])
+			if(IS_ADD_SYMBOL){
 				//記号
 
 				//半角の後にスペースがある場合はスペース挿入
@@ -113,7 +127,8 @@ class WordConvert {
 
 			} else {
 				// 半角文字の時の処理を記述
-				if(LIST[i][0] == '\\'){continue;}
+				const NON_ADD_SYMBOL = LIST[i][0] == '\\' || !IS_ADD_SYMBOL && IS_SYMBOL
+				if(NON_ADD_SYMBOL){continue;}
 				result.push(LIST[i][0])
 
 			}

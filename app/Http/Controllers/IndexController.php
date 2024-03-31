@@ -11,8 +11,9 @@ class IndexController extends Controller
     public function __invoke(Request $request)
     {
         $maps = DB::table('maps')
-            ->pluck('title', 'movie_id');
-
+            ->select('id', 'title', 'movie_id')
+            ->get()
+            ->reverse();
 
         return view('index', compact('maps'));
     }

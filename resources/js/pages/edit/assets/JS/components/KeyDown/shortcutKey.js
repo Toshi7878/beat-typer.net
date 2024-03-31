@@ -1,4 +1,4 @@
-import { lineData, NUMBER, TIME, changeTab, undoSet, redoSet } from '@/pages/edit/assets/JS/consts/refs.js';
+import { lineData, NUMBER, TIME, lyricsBox, changeTab, undoSet, redoSet } from '@/pages/edit/assets/JS/consts/refs.js';
 import { youtube, playSpeed } from '@/templates/assets/JS/youtubeRef.js'
 import { LineBlur } from '@/pages/edit/assets/JS/components/selectBlur.js';
 import { setLyrics } from '@/pages/edit/assets/JS/components/lyricsBox.js';
@@ -82,7 +82,10 @@ class KeyHandler extends WordReplace {
 
 		if(LAST.state == 'add'){
 			lineData.value.splice(LAST.number, 1);
+			lyricsBox.value = `${LAST.value.lyrics}\n${lyricsBox.value}`
 			undoSet.pop()
+			youtube.value.seekTo(LAST.value.time-3)
+			setLyrics()
 		}
 	}
 

@@ -10,7 +10,6 @@
         "axios": "^1.6.4",
         "laravel-vite-plugin": "^1.0.0",
         "sass": "^1.71.1",
-        "ts-migrate": "^0.1.35",
         "vite": "^5.0.0"
     },
     "dependencies": {

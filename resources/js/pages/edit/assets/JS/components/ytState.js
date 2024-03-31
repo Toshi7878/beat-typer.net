@@ -1,5 +1,4 @@
-import { onTick } from 'vue3-pixi';
-import { timer, line } from '@/pages/edit/assets/JS/components/timer.js';
+import { timer, line ,ticker } from '@/pages/edit/assets/JS/components/timer.js';
 import { lineData, URL, TITLE } from '@/pages/edit/assets/JS/consts/refs.js';
 import { youtube, volume } from '@/templates/assets/JS/youtubeRef.js'
 import { LineBlur } from '@/pages/edit/assets/JS/components/selectBlur.js';
@@ -82,19 +81,19 @@ export const ytState = new YTState()
 class PlayerEvent {
 
 	static play(event) {
-		onTick(timer.update.bind(timer))
+		ticker.start()
 		ytState.state = YTState.LIST[event.data]
 		line.updateBackgroundColor(line.count - 1)
 	}
 
 	static end(event) {
 		ytState.state = YTState.LIST[event.data]
-		onTick()
+		ticker.stop()
 	}
 
 	static pause(event) {
 		ytState.state = YTState.LIST[event.data]
-		onTick()
+		ticker.stop()
 	}
 
 	static seek(event) {

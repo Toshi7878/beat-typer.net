@@ -1,7 +1,7 @@
 <script setup>
 
 import Header from '@/templates/header.vue'
-import MapList from './components/MapList.vue';
+import MapList from './components/MapList/MapList.vue';
 
 
 
@@ -9,7 +9,7 @@ import MapList from './components/MapList.vue';
 
 <template>
   <Header />
-  <main class="container-fluid">
+  <main class="container">
     <div class="row">
       <MapList />
     </div>

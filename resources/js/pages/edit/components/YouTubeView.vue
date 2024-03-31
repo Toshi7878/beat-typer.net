@@ -18,13 +18,13 @@ if (isNew == 'id') {
 
 <template>
 	<div id="youtube_container" class="col-3">
-		<YouTube :src="id" :vars="vars" width="200px" height="200px" @ready="ytState.ready()" ref="youtube" @state-change="ytState.change" />
+		<YouTube :src="id" :vars="vars" width="270px" height="152px" @ready="ytState.ready()" ref="youtube" @state-change="ytState.change" />
 	</div>
 </template>
 
 
 <style>
 #youtube_container {
-	width: fit-content;
+	align-content: center;
 }
 </style>

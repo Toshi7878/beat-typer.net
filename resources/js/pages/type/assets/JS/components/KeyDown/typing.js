@@ -50,7 +50,7 @@ class KeyCalc extends Event {
 		const CHAR = this.char['key'][0]
 
 
-		const IS_SUCCESS = _.some(romaPattern, pattern => pattern[0] === CHAR);
+		const IS_SUCCESS = _.some(romaPattern, pattern => pattern[0].toLowerCase() === CHAR);
 
 		if(!IS_SUCCESS){
 			//←ミス

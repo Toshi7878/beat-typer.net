@@ -1,10 +1,13 @@
 import {TIME, lineData, TIME_BAR_VAL} from '@/pages/edit/assets/JS/consts/refs.js';
 import { youtube, playSpeed } from '@/templates/assets/JS/youtubeRef.js'
+import { Ticker } from 'pixi.js';
+export const ticker = new Ticker()
 
 class Timer {
 
 	constructor(){
 		this.correntTime = 0
+		ticker.add(this.update.bind(this))
 	}
 
 	update(){
