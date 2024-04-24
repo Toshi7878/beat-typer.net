@@ -22,6 +22,7 @@ use App\Http\Controllers\GetMapController;
 Route::get('/', IndexController::class);
 
 Route::get('/edit/new', [EditController::class, 'newCreate']);
+Route::get('/edit/{id}', [EditController::class, 'edit']);
 Route::get('/type/{id}', TypeController::class);
 
 

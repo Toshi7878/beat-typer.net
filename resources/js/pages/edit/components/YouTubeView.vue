@@ -12,7 +12,7 @@ let id = ''
 if (isNew == 'id') {
 	id = location.search.slice(4)
 } else {
-	id = location.search.slice(4)
+	id = window.movieId
 }
 </script>
 

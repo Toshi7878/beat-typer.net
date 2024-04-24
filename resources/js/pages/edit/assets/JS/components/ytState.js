@@ -58,8 +58,6 @@ class YTState{
 	}
 
 	async ready() {
-		const DURATION = youtube.value.getDuration()
-		document.getElementById("time-bar").max = DURATION
 		document.getElementById("time-bar").value = 0
 		URL.value = `https://www.youtube.com/watch?v=${youtube.value.src}`
 
@@ -68,12 +66,21 @@ class YTState{
 		}
 
 		if (!lineData.value.length) {
-			lineData.value.splice(0, 2, { time: '0', lyrics: '', word: '' }, { time: DURATION.toFixed(3), lyrics: 'end', word: '' })
+			lineData.value.splice(0, 2, { time: '0', lyrics: '', word: '' }, { time: Infinity, lyrics: 'end', word: '' })
 		}
+
+		this.updateDuration()
 
 		LineBlur.selectBlur()
 		youtube.value.setVolume(volume.value)
 	}
+
+	updateDuration(){
+		const DURATION = youtube.value.getDuration()
+		document.getElementById("time-bar").max = DURATION
+		lineData.value[lineData.value.length-1].time = DURATION.toFixed(3)
+	}
+
 }
 
 export const ytState = new YTState()
@@ -81,9 +88,17 @@ export const ytState = new YTState()
 class PlayerEvent {
 
 	static play(event) {
+
+		if(ytState.state == 'ready'){
+			//ready時の動画時間取得処理は整数秒のみでしか取得できないので再生時にもういちど取得
+			ytState.updateDuration()
+		}
+
 		ticker.start()
 		ytState.state = YTState.LIST[event.data]
 		line.updateBackgroundColor(line.count - 1)
+
+
 	}
 
 	static end(event) {

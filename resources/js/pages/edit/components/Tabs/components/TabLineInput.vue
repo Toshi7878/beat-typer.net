@@ -6,13 +6,14 @@ import { LineBlur } from '@/pages/edit/assets/JS/components/selectBlur.js';
 import { tableScroll } from '@/pages/edit/assets/JS/components/scroll.js';
 import { wordConvert } from '@/pages/edit/assets/JS/components/wordConvert.js';
 import { db } from '@/pages/edit/assets/JS/DB/db.js';
+import { ytState } from '@/pages/edit/assets/JS/components/ytState.js';
 
 // TIMEボックスに数値が入っていたらTrue
 const IS_IN_TIME = ref();
 
 watch(TIME, (newValue) => {
 	// 数値が入っていたらTrue
-	IS_IN_TIME.value = !isNaN(newValue) && newValue !== '' ? true : false;
+	IS_IN_TIME.value = !isNaN(newValue) && newValue !== '' && ytState.state != 'ready' ? true : false;
 });
 
 const IS_IN_LYRIC = ref();
@@ -41,10 +42,16 @@ class Event {
 		let lineNum = 0
 
 		for (let i = 0; i < LINES.length; i++) {
-			let diff = +TIME.value + +timeDiff.value
+			let diff
+
+			if (ytState.state == 'play') {
+				diff = +TIME.value + +timeDiff.value
+			} else {
+				diff = +TIME.value
+			}
 
 			if (LINES[i].time > diff) {
-				if (0 > diff) { diff = 0 }
+				if (0 >= diff) { diff = 0.001 }
 				lineNum = i
 				const LINE = { time: diff.toFixed(3), lyrics: LYRIC.value, word: WORD.value }
 				lineData.value.splice(i, 0, LINE);
@@ -66,7 +73,14 @@ class Event {
 
 
 	static update() {
-		lineData.value[NUMBER.value - 1] = { time: TIME.value, lyrics: LYRIC.value, word: WORD.value }
+		let diff = +TIME.value
+		const END_TIME = lineData.value[lineData.value.length - 1].time
+
+		if (diff >= END_TIME) {
+			diff = END_TIME - 0.001
+		}
+
+		lineData.value[NUMBER.value - 1] = { time: diff, lyrics: LYRIC.value, word: WORD.value }
 		LineBlur.selectBlur()
 	}
 
